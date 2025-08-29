@@ -1,2 +1,3 @@
 # GradGrove
-SIH 2025 | SIH25102
+
+Prototype for SIH 2025 Problem Statement 25102: AI-based drop-out prediction and counseling system.

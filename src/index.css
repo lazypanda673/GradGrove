@@ -1,0 +1,25 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+:root {
+  --color-primary: #2563EB;
+  --color-secondary: #9333EA;
+  --color-background: #F9FAFB;
+  --color-text: #111827;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+}
+.btn {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn:hover {
+  background: var(--color-secondary);
+}
