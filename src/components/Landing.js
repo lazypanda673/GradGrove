@@ -25,15 +25,15 @@ function Landing() {
             href={link.href}
             style={{
               color: '#fff',
-              background: hovered === idx ? 'var(--color-secondary)' : 'transparent',
+              // background: hovered === idx ? 'var(--color-secondary)' : 'transparent',
               padding: '8px 18px',
               margin: '0 6px',
               borderRadius: 6,
               fontWeight: hovered === idx ? 700 : 500,
               fontSize: '1.08rem',
-              textDecoration: hovered === idx ? 'underline' : 'none',
+              textDecoration: 'none',
               transition: 'all 0.2s',
-              boxShadow: hovered === idx ? '0 2px 8px rgba(0,0,0,0.12)' : 'none',
+              // boxShadow: hovered === idx ? '0 2px 8px rgba(0,0,0,0.12)' : 'none',
               cursor: 'pointer',
               borderBottom: hovered === idx ? '2px solid #fff' : '2px solid transparent',
               letterSpacing: hovered === idx ? '0.5px' : 'normal',
