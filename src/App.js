@@ -11,15 +11,10 @@ const Counsellor = React.lazy(() => import('./components/Counsellor'));
 const Admin = React.lazy(() => import('./components/Admin'));
 const MentorDashboard = React.lazy(() => import('./components/MentorDashboard'));
 const StudentDashboard = React.lazy(() => import('./components/StudentDashboard'));
+const StudentForm = React.lazy(() => import('./components/StudentForm'));
 
 function App() {
   const [role, setRole] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 400);
-    return () => clearTimeout(timer);
-  }, []);
 
   const LoadingSpinner = () => (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
@@ -31,27 +26,23 @@ function App() {
   return (
     <Router>
       <Suspense fallback={<LoadingSpinner />}>
-        {loading ? <LoadingSpinner /> : !role ? (
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login setRole={setRole} />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
-        ) : (
-          <>
-            <Navbar role={role} />
-            <div style={{ padding: "20px" }}>
-              <Routes>
-                <Route path="/user" element={<UserSurvey />} />
-                <Route path="/counsellor" element={<Counsellor />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/mentor" element={<MentorDashboard />} />
-                <Route path="/student" element={<StudentDashboard />} />
-              </Routes>
-            </div>
-            <ToastContainer />
-          </>
-        )}
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login setRole={setRole} />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/student-form" element={<StudentForm />} />
+          {role && (
+            <>
+              <Route path="/user" element={<UserSurvey />} />
+              <Route path="/counsellor" element={<Counsellor />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/mentor" element={<MentorDashboard />} />
+              <Route path="/student" element={<StudentDashboard />} />
+            </>
+          )}
+        </Routes>
+        {role && <Navbar role={role} />}
+        <ToastContainer />
       </Suspense>
     </Router>
   );

@@ -1,33 +1,170 @@
 
+
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-function StudentQuestionnaire({ onSubmit }) {
-  const [gpa, setGpa] = useState("");
-  const [attendance, setAttendance] = useState("");
-  const [activity, setActivity] = useState("yes");
-  const [stress, setStress] = useState(3);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = { gpa, attendance, activity, stress };
-    onSubmit(data);
-    toast.success("Form submitted successfully!");
+function StudentForm() {
+  // Section definitions
+  const sections = [
+    {
+      name: 'Academic Information',
+      fields: [
+        { label: 'What is your current attendance rate? (0-100%)', name: 'attendance', type: 'number', min: 0, max: 100 },
+        { label: 'How would you describe your grade trend over the past year?', name: 'gradeTrend', type: 'select', options: ['Improving consistently', 'Remaining stable', 'Declining gradually', 'Declining rapidly', 'Fluctuating unpredictably'] },
+        { label: 'How would you rate your proficiency in the language of instruction?', name: 'languageProficiency', type: 'select', options: ['Native speaker', 'Fluent', 'Intermediate', 'Basic', 'Beginner'] },
+        { label: 'Does the language of instruction match your proficiency level?', name: 'languageMatch', type: 'select', options: ['Yes', 'No'] },
+        { label: 'How many times have you transferred schools in the past 3 years?', name: 'schoolTransfers', type: 'select', options: ['None', 'Once', 'Twice', 'Three or more times'] },
+      ]
+    },
+    {
+      name: 'Personal Information',
+      fields: [
+        { label: 'What is your current marital status?', name: 'maritalStatus', type: 'select', options: ['Single', 'Married', 'Divorced', 'Separated', 'Widowed'] },
+        { label: 'Are you experiencing any chronic illness or health condition?', name: 'chronicIllness', type: 'select', options: ['Yes', 'No', 'Prefer not to say'] },
+        { label: 'Do you have caregiving responsibilities for family members?', name: 'caregiving', type: 'select', options: ['Yes, significant responsibilities', 'Yes, minor responsibilities', 'No'] },
+        { label: 'Have you entered into marriage at an early age?', name: 'earlyMarriage', type: 'select', options: ['Yes', 'No', 'Not applicable'] },
+      ]
+    },
+    {
+      name: 'Financial Background',
+      fields: [
+        { label: 'How would you describe your tuition fee payment status?', name: 'tuitionStatus', type: 'select', options: ['Always paid on time', 'Occasionally delayed', 'Frequently delayed', 'Relying on financial aid/scholarships', 'Facing significant financial constraints'] },
+      ]
+    },
+    {
+      name: 'Family Background',
+      fields: [
+        { label: "What is your parents' marital status?", name: 'parentsMarital', type: 'select', options: ['Married and living together', 'Separated', 'Divorced', 'Widowed', 'Never married'] },
+        { label: 'Does your family have a migrant background?', name: 'migrantBackground', type: 'select', options: ['Yes, first-generation migrants', 'Yes, second-generation migrants', 'No'] },
+      ]
+    },
+    {
+      name: 'Social Factors',
+      fields: [
+        { label: 'How would you describe your relationships with peers?', name: 'peerRelations', type: 'select', options: ['Excellent - I have many friends and good relationships', 'Good - I have some friends and generally positive relationships', 'Fair - I have few friends but no major conflicts', 'Poor - I experience regular conflicts or feel isolated', 'Very poor - I face bullying or complete social isolation'] },
+        { label: 'Have you engaged in substance abuse (alcohol, drugs, etc.)?', name: 'substanceAbuse', type: 'select', options: ['Never', 'Experimented occasionally', 'Use regularly', 'Have struggled with addiction in the past', 'Prefer not to answer'] },
+        { label: 'Do you have any disciplinary records or behavioral issues at school?', name: 'disciplinary', type: 'select', options: ['None', 'Minor incidents', 'Multiple incidents', 'Serious behavioral issues', 'Prefer not to answer'] },
+        { label: 'How often do you attend counseling sessions when offered?', name: 'counselingAttendance', type: 'select', options: ['Always', 'Often', 'Occasionally', 'Rarely', 'Never'] },
+      ]
+    },
+    {
+      name: 'Additional Information',
+      fields: [
+        { label: 'Is there any other personal circumstance that you believe affects your academic performance that you would like to share?', name: 'additionalInfo', type: 'textarea' },
+      ]
+    }
+  ];
+
+  const [form, setForm] = useState({
+    attendance: '',
+    gradeTrend: '',
+    languageProficiency: '',
+    languageMatch: '',
+    schoolTransfers: '',
+    maritalStatus: '',
+    chronicIllness: '',
+    caregiving: '',
+    earlyMarriage: '',
+    tuitionStatus: '',
+    financialStatus: '',
+    parentsMarital: '',
+    migrantBackground: '',
+    peerRelations: '',
+    substanceAbuse: '',
+    disciplinary: '',
+    counselingAttendance: '',
+    additionalInfo: ''
+  });
+  const [sectionIdx, setSectionIdx] = useState(0);
+  const [completed, setCompleted] = useState(false);
+
+  const handleChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSectionSubmit = e => {
+    e.preventDefault();
+    if (sectionIdx < sections.length - 1) {
+      setSectionIdx(sectionIdx + 1);
+    } else {
+      setCompleted(true);
+      toast.success('Form submitted successfully!');
+    }
+  };
+
+  if (completed) {
+    return (
+      <div style={{ maxWidth: 600, margin: '0 auto', background: '#fff', padding: 32, borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', textAlign: 'center' }}>
+        <h2 style={{ color: 'var(--color-success)' }}>Thank you for submitting the Student Questionnaire!</h2>
+        <p>Your responses have been saved.</p>
+      </div>
+    );
+  }
+
+  // DEBUG: Confirm component is mounting
+  console.log('StudentForm component mounted');
+
+  const currentSection = sections[sectionIdx];
+
+  // Progress bar calculation
+  const progress = ((sectionIdx + 1) / sections.length) * 100;
+
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 350 }}>
-      <h2 style={{ color: 'var(--color-secondary)' }}>Student Questionnaire</h2>
-      <input type="number" placeholder="GPA" value={gpa} onChange={e => setGpa(e.target.value)} required style={{ padding: 8, borderRadius: 4, border: '1px solid #ddd' }} />
-      <input type="number" placeholder="Attendance %" value={attendance} onChange={e => setAttendance(e.target.value)} required style={{ padding: 8, borderRadius: 4, border: '1px solid #ddd' }} />
-      <select value={activity} onChange={e => setActivity(e.target.value)} style={{ padding: 8, borderRadius: 4, border: '1px solid #ddd' }}>
-        <option value="yes">Participates</option>
-        <option value="no">Does not participate</option>
-      </select>
-      <input type="number" placeholder="Stress Level (1-5)" value={stress} onChange={e => setStress(e.target.value)} min="1" max="5" style={{ padding: 8, borderRadius: 4, border: '1px solid #ddd' }} />
-      <button type="submit" className="btn">Submit</button>
-    </form>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(120deg, #f3f4f6 60%, #e3e8ff 100%)', paddingTop: 32, paddingBottom: 32, animation: 'fadeIn 0.7s' }}>
+      {/* Progress Bar with percent */}
+      <div style={{ width: '80%', margin: '0 auto', marginTop: 24, marginBottom: 8, position: 'relative' }}>
+        <div style={{ height: 12, background: '#eee', borderRadius: 6, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+          <div style={{ width: `${progress}%`, height: '100%', background: 'var(--color-primary)', transition: 'width 0.3s', borderRadius: 6 }} />
+        </div>
+        <span style={{ position: 'absolute', right: 12, top: -2, fontWeight: 600, color: 'var(--color-primary)', fontSize: 15 }}>{Math.round(progress)}%</span>
+      </div>
+      <form onSubmit={handleSectionSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '80%', margin: '32px auto 0 auto', background: '#fff', padding: 40, borderRadius: 18, boxShadow: '0 4px 24px rgba(0,0,0,0.10)', animation: 'slideUp 0.7s' }}>
+  <h2 style={{ color: 'var(--color-secondary)', marginBottom: 12, fontWeight: 700, letterSpacing: 1 }}>Student Details</h2>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 18, justifyContent: 'center' }}>
+          {sections.map((sec, idx) => (
+            <div key={sec.name} style={{ flex: 1, textAlign: 'center' }}>
+              <div style={{
+                height: 10,
+                borderRadius: 5,
+                background:
+                  idx === sectionIdx
+                    ? 'var(--color-primary)'
+                    : idx < sectionIdx
+                      ? '#28a745'
+                      : '#eee',
+                marginBottom: 4,
+                transition: 'background 0.3s',
+                boxShadow: idx === sectionIdx ? '0 2px 8px rgba(0,0,0,0.10)' : undefined
+              }} />
+              <span style={{ fontSize: 14, color: idx === sectionIdx ? 'var(--color-primary)' : idx < sectionIdx ? '#28a745' : '#888', fontWeight: idx === sectionIdx ? 700 : 500 }}>{sec.name}</span>
+            </div>
+          ))}
+        </div>
+        <h3 style={{ color: 'var(--color-primary)', marginBottom: 8, fontWeight: 600 }}>{currentSection.name}</h3>
+        {currentSection.fields.map(field => (
+          <label key={field.name} style={{ display: 'flex', flexDirection: 'column', gap: 4, fontWeight: 500, color: '#333', background: '#f7f9fc', borderRadius: 8, padding: '12px 16px', marginBottom: 6, boxShadow: '0 1px 4px rgba(0,0,0,0.03)' }}>
+            {field.label}
+            {field.type === 'select' ? (
+              <select name={field.name} value={form[field.name]} onChange={handleChange} required style={{ padding: 10, borderRadius: 6, border: '1px solid #cfd8dc', marginTop: 6, fontSize: 15, background: '#fff' }}>
+                <option value="">Select</option>
+                {field.options.map(opt => <option key={opt}>{opt}</option>)}
+              </select>
+            ) : field.type === 'number' ? (
+              <input type="number" name={field.name} value={form[field.name]} onChange={handleChange} min={field.min} max={field.max} required style={{ padding: 10, borderRadius: 6, border: '1px solid #cfd8dc', marginTop: 6, fontSize: 15, background: '#fff' }} />
+            ) : field.type === 'textarea' ? (
+              <textarea name={field.name} value={form[field.name]} onChange={handleChange} rows={3} style={{ padding: 10, borderRadius: 6, border: '1px solid #cfd8dc', marginTop: 6, fontSize: 15, background: '#fff' }} />
+            ) : null}
+          </label>
+        ))}
+        <button type="submit" className="btn" style={{ marginTop: 18, fontWeight: 600, fontSize: 16, letterSpacing: 0.5 }}>{sectionIdx < sections.length - 1 ? 'Save & Next' : 'Submit'}</button>
+      </form>
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+      `}</style>
+    </div>
   );
 }
 
-export default StudentQuestionnaire;
+export default StudentForm;

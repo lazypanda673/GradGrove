@@ -1,16 +1,13 @@
 
 import { useState } from 'react';
-import StudentQuestionnaire from './StudentForm';
+
 
 function StudentDashboard() {
   // Simulate form status (replace with real API/db logic)
-  const [formFilled, setFormFilled] = useState(false);
-  const [formData, setFormData] = useState(null);
+  const [formFilled] = useState(false);
+  const [formData] = useState(null);
 
-  const handleFormSubmit = (data) => {
-    setFormFilled(true);
-    setFormData(data);
-  };
+
 
   return (
     <div>
@@ -20,7 +17,7 @@ function StudentDashboard() {
           <>
             <span style={{ color: 'var(--color-warning)', fontWeight: 500 }}>You have not filled the Student Form yet.</span>
             <div style={{ marginTop: 10 }}>
-              <button className="btn" onClick={() => setFormFilled(false)} style={{ background: 'var(--color-primary)', color: '#fff', cursor: 'pointer' }}>Fill Student Form</button>
+              <a href="/student-form" className="btn" style={{ background: 'var(--color-primary)', color: '#fff', padding: '10px 24px', borderRadius: 6, textDecoration: 'none', fontWeight: 500 }}>Fill Student Form</a>
             </div>
           </>
         ) : (
@@ -38,7 +35,7 @@ function StudentDashboard() {
           </>
         )}
       </div>
-      {!formFilled && <StudentQuestionnaire onSubmit={handleFormSubmit}/>} 
+  {/* No extra CTA button, only the original above */}
     </div>
   );
 }
