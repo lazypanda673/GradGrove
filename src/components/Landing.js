@@ -55,7 +55,7 @@ function Landing() {
         <p style={{ maxWidth: 650, margin: '28px auto', fontSize: '1.18rem', color: 'var(--color-text)' }}>
           Welcome to the SIH 2025 prototype. Our platform leverages artificial intelligence to help students, mentors, and administrators identify drop-out risks early and provide personalized support.
         </p>
-        <a href="/login">
+        <a href="/signup">
           <button className="btn" style={{ fontSize: '1.2rem', padding: '14px 38px', background: 'var(--color-primary)', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', marginTop: 18, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'background 0.2s' }}
             onMouseEnter={e => e.target.style.background = 'var(--color-secondary)'}
             onMouseLeave={e => e.target.style.background = 'var(--color-primary)'}

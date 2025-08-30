@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar';
 import Landing from './components/Landing';
 import Login from './components/Login';
+import Signup from './components/Signup';
 import UserSurvey from './components/UserSurvey';
 import Counsellor from './components/Counsellor';
 import Admin from './components/Admin';
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login setRole={setRole} />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       ) : (
         <>
