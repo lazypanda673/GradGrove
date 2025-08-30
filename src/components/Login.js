@@ -4,15 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 function Login({ setRole }) {
   const [username, setUsername] = useState("");
-  const [roleInput, setRoleInput] = useState("user");
+  const [roleInput, setRoleInput] = useState("student");
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setRole(roleInput);
-    if(roleInput === "admin") navigate("/admin");
-    else if(roleInput === "counsellor") navigate("/counsellor");
-    else navigate("/user");
+  setRole(roleInput);
+  if(roleInput === "admin") navigate("/admin");
+  else if(roleInput === "counsellor") navigate("/counsellor");
+  else if(roleInput === "student") navigate("/student");
   };
 
   return (
@@ -24,7 +24,7 @@ function Login({ setRole }) {
         <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 18, minWidth: 320, background: 'rgba(255,255,255,0.08)', padding: 32, borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
           <input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required style={{ padding: 12, borderRadius: 6, border: '1px solid #ddd', fontSize: '1.08rem' }} />
           <select value={roleInput} onChange={e => setRoleInput(e.target.value)} style={{ padding: 12, borderRadius: 6, border: '1px solid #ddd', fontSize: '1.08rem' }}>
-            <option value="user">User</option>
+            <option value="student">Student</option>
             <option value="counsellor">Counsellor</option>
             <option value="admin">Admin</option>
           </select>

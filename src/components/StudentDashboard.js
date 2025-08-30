@@ -1,4 +1,4 @@
-import StudentForm from './StudentForm';
+import StudentQuestionnaire from './StudentForm';
 
 function StudentDashboard() {
   const handleFormSubmit = (data) => {
@@ -8,7 +8,7 @@ function StudentDashboard() {
   return (
     <div>
       <h1 style={{ color: 'var(--color-primary)' }}>Student Dashboard</h1>
-      <StudentForm onSubmit={handleFormSubmit}/>
+  <StudentQuestionnaire onSubmit={handleFormSubmit}/>
     </div>
   );
 }

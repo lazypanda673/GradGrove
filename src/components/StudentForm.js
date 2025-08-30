@@ -1,7 +1,8 @@
+
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-function StudentForm({ onSubmit }) {
+function StudentQuestionnaire({ onSubmit }) {
   const [gpa, setGpa] = useState("");
   const [attendance, setAttendance] = useState("");
   const [activity, setActivity] = useState("yes");
@@ -29,4 +30,4 @@ function StudentForm({ onSubmit }) {
   );
 }
 
-export default StudentForm;
+export default StudentQuestionnaire;
