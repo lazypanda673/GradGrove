@@ -4,16 +4,16 @@ body {
   padding: 0;
 }
 :root {
-  --color-primary: #2563EB;
-  --color-secondary: #9333EA;
-  --color-background: #F9FAFB;
+  --color-primary: #05445E;
+  --color-secondary: #189AB4;
+  --color-background: #D4F1F4;
   --color-text: #111827;
   --color-success: #10B981;
   --color-warning: #F59E0B;
 }
 .btn {
   background: var(--color-primary);
-  color: #fff;
+  color: #D4F1F4;
   border: none;
   border-radius: 4px;
   padding: 0.5em 1em;

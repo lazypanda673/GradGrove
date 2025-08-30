@@ -59,7 +59,7 @@ function Landing() {
           <button className="btn" style={{ fontSize: '1.2rem', padding: '14px 38px', background: 'var(--color-primary)', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', marginTop: 18, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'background 0.2s' }}
             onMouseEnter={e => e.target.style.background = 'var(--color-secondary)'}
             onMouseLeave={e => e.target.style.background = 'var(--color-primary)'}
-          >Get Started</button>
+          >Sign Up</button>
         </a>
       </header>
 
