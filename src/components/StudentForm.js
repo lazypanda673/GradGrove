@@ -120,7 +120,7 @@ function StudentForm() {
         <span style={{ position: 'absolute', right: 12, top: -2, fontWeight: 600, color: 'var(--color-primary)', fontSize: 15 }}>{Math.round(progress)}%</span>
       </div>
       <form onSubmit={handleSectionSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '80%', margin: '32px auto 0 auto', background: '#fff', padding: 40, borderRadius: 18, boxShadow: '0 4px 24px rgba(0,0,0,0.10)', animation: 'slideUp 0.7s' }}>
-  <h2 style={{ color: 'var(--color-secondary)', marginBottom: 12, fontWeight: 700, letterSpacing: 1 }}>Student Details</h2>
+        <h2 style={{ color: 'var(--color-secondary)', marginBottom: 12, fontWeight: 700, letterSpacing: 1 }}>Student Details</h2>
         <div style={{ display: 'flex', gap: 8, marginBottom: 18, justifyContent: 'center' }}>
           {sections.map((sec, idx) => (
             <div key={sec.name} style={{ flex: 1, textAlign: 'center' }}>

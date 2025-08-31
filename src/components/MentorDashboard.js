@@ -11,7 +11,7 @@ function MentorDashboard() {
         { name: "Bob", risk: "Medium" }
       ];
       riskStudents.forEach(student => {
-        if(student.risk === "High") toast.error(`ALERT: ${student.name} at High Risk!`);
+        if (student.risk === "High") toast.error(`ALERT: ${student.name} at High Risk!`);
       });
       setAlerts(riskStudents);
     }, 10000);

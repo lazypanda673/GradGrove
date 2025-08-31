@@ -35,7 +35,7 @@ function StudentDashboard() {
           </>
         )}
       </div>
-  {/* No extra CTA button, only the original above */}
+      {/* No extra CTA button, only the original above */}
     </div>
   );
 }

@@ -20,9 +20,9 @@ function Login({ setRole }) {
       return;
     }
     setRole(roleInput);
-    if(roleInput === "admin") navigate("/admin");
-    else if(roleInput === "counsellor") navigate("/counsellor");
-    else if(roleInput === "student") navigate("/student");
+    if (roleInput === "admin") navigate("/admin");
+    else if (roleInput === "counsellor") navigate("/counsellor");
+    else if (roleInput === "student") navigate("/student");
   };
 
   return (
