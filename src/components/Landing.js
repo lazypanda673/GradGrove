@@ -15,16 +15,16 @@ function Landing() {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <div style={{ background: 'var(--color-background)', minHeight: '100vh', color: 'var(--color-text)', fontFamily: 'Segoe UI, Arial, sans-serif' }}>
+  <div style={{ background: 'var(--color-background)', minHeight: '100vh', color: 'var(--color-text)', fontFamily: 'Segoe UI, Arial, sans-serif' }}>
       {/* Navbar */}
-      <nav style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '18px 0', background: 'var(--color-primary)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', position: 'sticky', top: 0, zIndex: 10 }}>
+  <nav style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '18px 0', background: 'var(--color-primary)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', position: 'sticky', top: 0, zIndex: 10 }}>
         <img src="/Brand_logo.png" alt="GradGrove Logo" style={{ width: 40, marginRight: 16 }} />
         {navLinks.map((link, idx) => (
           <a
             key={link.label}
             href={link.href}
             style={{
-              color: '#fff',
+              color: 'var(--color-background)',
               // background: hovered === idx ? 'var(--color-secondary)' : 'transparent',
               padding: '8px 18px',
               margin: '0 6px',
@@ -35,7 +35,7 @@ function Landing() {
               transition: 'all 0.2s',
               // boxShadow: hovered === idx ? '0 2px 8px rgba(0,0,0,0.12)' : 'none',
               cursor: 'pointer',
-              borderBottom: hovered === idx ? '2px solid #fff' : '2px solid transparent',
+              borderBottom: hovered === idx ? '2px solid var(--color-background)' : '2px solid transparent',
               letterSpacing: hovered === idx ? '0.5px' : 'normal',
               textShadow: hovered === idx ? '0 1px 8px rgba(0,0,0,0.18)' : 'none'
             }}
@@ -50,13 +50,13 @@ function Landing() {
       {/* Hero Section */}
       <header style={{ padding: '60px 0 30px 0', textAlign: 'center' }}>
         <img src="/Brand_logo.png" alt="GradGrove Logo" style={{ width: 80, marginBottom: 16 }} />
-        <h1 style={{ color: 'var(--color-primary)', fontSize: '3rem', fontWeight: 700, marginBottom: 10 }}>GradGrove</h1>
-        <h2 style={{ fontSize: '1.7rem', color: 'var(--color-secondary)', margin: '10px 0 0 0' }}>AI-based Drop-out Prediction & Counseling System</h2>
-        <p style={{ maxWidth: 650, margin: '28px auto', fontSize: '1.18rem', color: 'var(--color-text)' }}>
+  <h1 style={{ color: 'var(--color-primary)', fontSize: '3rem', fontWeight: 700, marginBottom: 10 }}>GradGrove</h1>
+  <h2 style={{ fontSize: '1.7rem', color: 'var(--color-secondary)', margin: '10px 0 0 0' }}>AI-based Drop-out Prediction & Counseling System</h2>
+  <p style={{ maxWidth: 650, margin: '28px auto', fontSize: '1.18rem', color: 'var(--color-text)' }}>
           Welcome to the SIH 2025 prototype. Our platform leverages artificial intelligence to help students, mentors, and administrators identify drop-out risks early and provide personalized support.
         </p>
         <a href="/signup">
-          <button className="btn" style={{ fontSize: '1.2rem', padding: '14px 38px', background: 'var(--color-primary)', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', marginTop: 18, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'background 0.2s' }}
+          <button className="btn" style={{ fontSize: '1.2rem', padding: '14px 38px', background: 'var(--color-primary)', color: 'var(--color-background)', border: 'none', borderRadius: 8, cursor: 'pointer', marginTop: 18, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'background 0.2s' }}
             onMouseEnter={e => e.target.style.background = 'var(--color-secondary)'}
             onMouseLeave={e => e.target.style.background = 'var(--color-primary)'}
           >Sign Up</button>
@@ -161,7 +161,7 @@ function Landing() {
         </form>
       </section>
 
-      <footer style={{ textAlign: 'center', padding: '32px 0', color: 'var(--color-secondary)', fontSize: '0.95rem' }}>
+      <footer style={{ textAlign: 'center', padding: '32px 0', color: 'var(--color-secondary)', fontSize: '0.95rem', background: 'var(--color-primary)' }}>
         &copy; 2025 GradGrove Hackathon Prototype. All rights reserved.
       </footer>
     </div>

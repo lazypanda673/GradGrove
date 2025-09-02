@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 function Navbar({ role }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
-    <nav style={{ padding: "10px", background: "rgba(37,99,235,0.85)", color: "#fff", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+  <nav style={{ padding: "10px 32px", background: "var(--color-primary)", color: "var(--color-background)", display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', position: 'sticky', top: 0, zIndex: 100 }}>
       <div>
         {role === "admin" && <Link to="/admin" style={{ margin: 10, color: "#fff" }}>Admin Dashboard</Link>}
         {role === "mentor" && <Link to="/mentor" style={{ margin: 10, color: "#fff" }}>Mentor Dashboard</Link>}
         {role === "student" && <Link to="/student" style={{ margin: 10, color: "#fff" }}>Student Dashboard</Link>}
-        {role === "counsellor" && <Link to="/counsellor" style={{ margin: 10, color: "#fff" }}>Counsellor Dashboard</Link>}
+  {role === "counsellor" && <Link to="/counsellor" style={{ margin: 10, color: "var(--color-background)", fontWeight: 600, fontSize: '1.08rem', textDecoration: 'none' }}>Counsellor Dashboard</Link>}
         {role === "user" && <Link to="/user" style={{ margin: 10, color: "#fff" }}>User Survey</Link>}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 18, position: 'relative' }}>
