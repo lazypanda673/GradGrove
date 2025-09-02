@@ -12,7 +12,7 @@ function Footer() {
             fontSize: 15,
             letterSpacing: '0.5px',
             boxShadow: '0 -2px 8px rgba(0,0,0,0.04)',
-            position: 'fixed',
+            position: 'static',
             left: 0,
             bottom: 0,
             width: '100vw',

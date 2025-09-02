@@ -41,8 +41,8 @@ function App() {
             </>
           )}
         </Routes>
-        {role && <Navbar role={role} />}
-        <ToastContainer />
+        {/* {role && <Navbar role={role} />}
+        <ToastContainer /> */}
       </Suspense>
     </Router>
   );

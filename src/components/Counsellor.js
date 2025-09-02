@@ -11,6 +11,31 @@ const mockStudents = [
   { id: 3, name: 'Rahul Verma', roll: '1003', class: '10A', dept: 'Science', gender: 'Male', socio: 'Low', risk: 'high', grades: 5.2 },
   { id: 4, name: 'Sneha Patel', roll: '1004', class: '10C', dept: 'Arts', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.9 },
   { id: 5, name: 'Vikram Rao', roll: '1005', class: '10B', dept: 'Commerce', gender: 'Male', socio: 'High', risk: 'medium', grades: 7.0 },
+  { id: 6, name: 'Riya Mehra', roll: '1006', class: '10A', dept: 'Science', gender: 'Female', socio: 'Low', risk: 'high', grades: 5.8 },
+  { id: 7, name: 'Karan Gupta', roll: '1007', class: '10C', dept: 'Arts', gender: 'Male', socio: 'Middle', risk: 'low', grades: 8.0 },
+  { id: 8, name: 'Fatima Khan', roll: '1008', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'High', risk: 'medium', grades: 6.2 },
+  { id: 9, name: 'Suresh Das', roll: '1009', class: '10A', dept: 'Science', gender: 'Male', socio: 'Low', risk: 'high', grades: 4.9 },
+  { id: 10, name: 'Neha Joshi', roll: '1010', class: '10C', dept: 'Arts', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.7 },
+  { id: 11, name: 'Arjun Yadav', roll: '1011', class: '10A', dept: 'Science', gender: 'Male', socio: 'High', risk: 'medium', grades: 6.8 },
+  { id: 12, name: 'Megha Jain', roll: '1012', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.5 },
+  { id: 13, name: 'Deepak Kumar', roll: '1013', class: '10C', dept: 'Arts', gender: 'Male', socio: 'Low', risk: 'high', grades: 5.1 },
+  { id: 14, name: 'Simran Kaur', roll: '1014', class: '10A', dept: 'Science', gender: 'Female', socio: 'High', risk: 'medium', grades: 6.3 },
+  { id: 15, name: 'Mohit Sinha', roll: '1015', class: '10B', dept: 'Commerce', gender: 'Male', socio: 'Middle', risk: 'low', grades: 7.8 },
+  { id: 16, name: 'Anjali Roy', roll: '1016', class: '10C', dept: 'Arts', gender: 'Female', socio: 'Low', risk: 'high', grades: 5.6 },
+  { id: 17, name: 'Rakesh Nair', roll: '1017', class: '10A', dept: 'Science', gender: 'Male', socio: 'High', risk: 'medium', grades: 6.9 },
+  { id: 18, name: 'Pooja Desai', roll: '1018', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.2 },
+  { id: 19, name: 'Tarun Mishra', roll: '1019', class: '10C', dept: 'Arts', gender: 'Male', socio: 'Low', risk: 'high', grades: 5.3 },
+  { id: 20, name: 'Shweta Agarwal', roll: '1020', class: '10A', dept: 'Science', gender: 'Female', socio: 'High', risk: 'medium', grades: 6.7 },
+  { id: 21, name: 'Nitin Bansal', roll: '1021', class: '10B', dept: 'Commerce', gender: 'Male', socio: 'Middle', risk: 'low', grades: 7.6 },
+  { id: 22, name: 'Isha Kapoor', roll: '1022', class: '10C', dept: 'Arts', gender: 'Female', socio: 'Low', risk: 'high', grades: 5.4 },
+  { id: 23, name: 'Manish Dubey', roll: '1023', class: '10A', dept: 'Science', gender: 'Male', socio: 'High', risk: 'medium', grades: 6.1 },
+  { id: 24, name: 'Ritu Sharma', roll: '1024', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.3 },
+  { id: 25, name: 'Sanjay Singh', roll: '1025', class: '10C', dept: 'Arts', gender: 'Male', socio: 'Low', risk: 'high', grades: 5.0 },
+  { id: 26, name: 'Ayesha Khan', roll: '1026', class: '10A', dept: 'Science', gender: 'Female', socio: 'High', risk: 'medium', grades: 6.6 },
+  { id: 27, name: 'Rohit Chawla', roll: '1027', class: '10B', dept: 'Commerce', gender: 'Male', socio: 'Middle', risk: 'low', grades: 7.1 },
+  { id: 28, name: 'Neelam Joshi', roll: '1028', class: '10C', dept: 'Arts', gender: 'Female', socio: 'Low', risk: 'high', grades: 5.7 },
+  { id: 29, name: 'Vivek Saxena', roll: '1029', class: '10A', dept: 'Science', gender: 'Male', socio: 'High', risk: 'medium', grades: 6.4 },
+  { id: 30, name: 'Divya Pillai', roll: '1030', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.4 },
 ];
 
 const riskColors = {
@@ -119,7 +144,7 @@ function Counsellor() {
               onMouseEnter={() => setActiveFilter(cat)}
             >{cat}</span>
             {activeFilter === cat && (
-              <div style={{ position: 'absolute', left: '110%', top: 0, background: '#fff', color: 'var(--color-primary)', borderRadius: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.10)', minWidth: 120, padding: '10px 0', zIndex: 1100 }}>
+              <div style={{ position: 'absolute', left: '110%', top: 0, background: '#fff', color: 'var(--color-primary)', borderRadius: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.10)', minWidth: 120, padding: '10px 0', zIndex: 1000 }}>
                 {cat === 'Class' && classes.map(c => (
                   <div key={c} style={{ padding: '8px 18px', cursor: 'pointer', background: filterClass === c ? 'var(--color-secondary)' : 'transparent', color: filterClass === c ? '#fff' : 'var(--color-primary)' }} onClick={() => setFilterClass(filterClass === c ? '' : c)}>{c}</div>
                 ))}
@@ -142,14 +167,24 @@ function Counsellor() {
   );
 
   // Graphs to show (overview or selected student)
-  const graphs = selectedStudent ? studentGraphs[selectedStudent.id] : dummyGraphs;
+  const defaultStudentGraph = student => [
+    { title: 'Attendance', value: student.grades > 6 ? 85 : 65, unit: '%', color: 'var(--color-secondary)' },
+    { title: 'Grades', value: student.grades, unit: 'GPA', color: 'var(--color-warning)' },
+    { title: 'Risk Level', value: student.risk.charAt(0).toUpperCase() + student.risk.slice(1), unit: '', color: student.risk === 'low' ? 'var(--color-success)' : student.risk === 'medium' ? 'var(--color-warning)' : 'var(--color-danger)' },
+    { title: 'Counseling Sessions', value: 1, unit: 'sessions', color: 'var(--color-primary)' },
+    { title: 'Disciplinary Actions', value: 0, unit: 'incidents', color: 'var(--color-danger)' },
+    { title: 'Participation', value: student.grades > 6 ? 80 : 60, unit: '%', color: 'var(--color-success)' },
+  ];
+  const graphs = selectedStudent
+    ? (studentGraphs[selectedStudent.id] || defaultStudentGraph(selectedStudent))
+    : dummyGraphs;
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-background)', fontFamily: 'Segoe UI, Arial, sans-serif' }}>
       <Navbar role="counsellor" />
-      <div style={{ display: 'flex', maxWidth: 1400, margin: '0 auto', width: '100%' }}>
+      <div style={{ display: 'flex', maxWidth: 1400, margin: '0', width: '100%' }}>
         {/* Sidebar absolutely flush left, fixed height */}
-        <div style={{ width: 260, minWidth: 260, background: 'var(--color-primary)', color: 'var(--color-background)', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '32px 0 24px 0', boxShadow: '2px 0 12px rgba(0,0,0,0.08)', height: 'calc(100vh - 48px)', position: 'sticky', top: 48, left: 0, zIndex: 101 }}>
+  <div style={{ width: 260, minWidth: 260, background: 'var(--color-primary)', color: 'var(--color-background)', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '32px 0 0 30px', boxShadow: '2px 0 12px rgba(0,0,0,0.08)', height: 'calc(100vh - 48px)', position: 'sticky', top: 48, left: 0, zIndex: 10 ,overflowY: 'auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', width: '90%', marginBottom: 18 }}>
             <input
               type="text"
@@ -159,7 +194,7 @@ function Counsellor() {
               style={{ padding: 10, borderRadius: 6, border: '1px solid #ccc', width: '60%' }}
             />
             <button
-              style={{ marginLeft: 10, padding: '10px 16px', borderRadius: 6, background: 'var(--color-danger)', color: '#fff', border: 'none', fontWeight: 600, cursor: 'pointer' }}
+              style={{ marginLeft: 10, padding: '10px 16px', borderRadius: 6, background: '#fff', color: 'var(--color-primary)', border: 'none', fontWeight: 600, cursor: 'pointer' }}
               onClick={() => setShowFilters(!showFilters)}
             >
               Filters
@@ -202,7 +237,8 @@ function Counsellor() {
               <button onClick={handleReset} style={{ marginTop: 8, background: 'var(--color-danger)', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 18px', fontWeight: 600, cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,0.10)' }}>Reset Filters</button>
             </div>
           )}
-          <div style={{ width: '90%', background: 'var(--color-secondary)', borderRadius: 12, padding: '12px 0', minHeight: 400, marginTop: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.10)' }}>
+          {/*Students List*/}
+          <div style={{ width: '90%', background: 'var(--color-secondary)', /*borderRadius: 12 ,*/ padding: '12px 0', minHeight: 400, marginTop: 8, boxShadow: '0 2px 12px rgba(0,0,0,0.10)', /*maxHeight: '60vh' ,*/height: '74%', overflowY: 'auto'  }}>
             <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
               {filtered.length === 0 ? (
                 <li style={{ color: '#fff', textAlign: 'center', padding: '24px 0' }}>No students found.</li>
@@ -219,7 +255,7 @@ function Counsellor() {
           </div>
         </div>
         {/* Main Graphs Area, with left margin for sidebar */}
-        <div style={{ flex: 1, padding: '32px 24px', marginLeft: 0, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(3, 1fr)', gap: 24, background: 'var(--color-background)' }}>
+  <div style={{ flex: 1, padding: '32px 0px 64px 100px', marginLeft: 0, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(3, 1fr)', gap: 24, background: 'var(--color-background)' }}>
           {graphs.map((g, idx) => (
             <div key={g.title} style={{ background: '#fff', borderRadius: 14, boxShadow: idx === 1 ? '0 0 0 2px var(--color-primary)' : '0 2px 12px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 140, fontWeight: 600, fontSize: 22, color: g.color, border: idx === 1 ? '2px solid var(--color-primary)' : 'none', transition: 'box-shadow 0.2s' }}>
               <span style={{ fontSize: 18, color: 'var(--color-text)', marginBottom: 8 }}>{g.title}</span>
@@ -228,7 +264,9 @@ function Counsellor() {
           ))}
         </div>
       </div>
-      <Footer />
+      <div style={{ position: 'fixed', left: 0, bottom: 0, width: '100%', zIndex: 100 }}>
+        <Footer />
+      </div>
     </div>
   );
 }
