@@ -1,0 +1,20 @@
+CREATE TABLE student_profiles (
+  id SERIAL PRIMARY KEY,
+  attendance FLOAT,
+  grade_trend TEXT,
+  language_proficiency TEXT,
+  language_match TEXT,
+  school_transfers TEXT,
+  marital_status TEXT,
+  chronic_illness TEXT,
+  caregiving TEXT,
+  early_marriage TEXT,
+  tuition_status TEXT,
+  parents_marital TEXT,
+  migrant_background TEXT,
+  peer_relations TEXT,
+  substance_abuse TEXT,
+  disciplinary TEXT,
+  counseling_attendance TEXT,
+  additional_info TEXT
+);
