@@ -1,3 +1,7 @@
-# Ignore node_modules and environment files
+# GradGrove Frontend .gitignore
+# Ignores files specific to React frontend
 node_modules/
+build/
 .env
+.env.local
+*.log
