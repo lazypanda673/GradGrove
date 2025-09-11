@@ -1,7 +1,7 @@
 "use client";
-import Login from "../components/Login";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Login from "../components/auth/Login";
+import Navbar from "../components/common/Navbar";
+import Footer from "../components/common/Footer";
 
 export default function LoginPage() {
   return (
