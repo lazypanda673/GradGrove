@@ -17,12 +17,14 @@ interface Student {
   id: number;
   name: string;
   roll: string;
-  class: string;
+  year: string;
+  semester: string;
+  section: string;
   dept: string;
   gender: string;
   socio: string;
   risk: 'low' | 'medium' | 'high';
-  grades: number;
+  cgpa: number;
   attendance: number;
   counselingSessions: number;
   disciplinaryActions: number;
@@ -43,38 +45,45 @@ interface ChartData {
   fill?: string;
 }
 
-// Mock data with enhanced metrics
+// Mock data with enhanced metrics - College Students
 const mockStudents: Student[] = [
-  { id: 1, name: 'Amit Sharma', roll: '1001', class: '10A', dept: 'Science', gender: 'Male', socio: 'Middle', risk: 'low', grades: 8.2, attendance: 92, counselingSessions: 1, disciplinaryActions: 0, participation: 95 },
-  { id: 2, name: 'Priya Singh', roll: '1002', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'High', risk: 'medium', grades: 6.5, attendance: 78, counselingSessions: 3, disciplinaryActions: 1, participation: 80 },
-  { id: 3, name: 'Rahul Verma', roll: '1003', class: '10A', dept: 'Science', gender: 'Male', socio: 'Low', risk: 'high', grades: 5.2, attendance: 60, counselingSessions: 5, disciplinaryActions: 2, participation: 50 },
-  { id: 4, name: 'Sneha Patel', roll: '1004', class: '10C', dept: 'Arts', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.9, attendance: 88, counselingSessions: 2, disciplinaryActions: 0, participation: 92 },
-  { id: 5, name: 'Vikram Rao', roll: '1005', class: '10B', dept: 'Commerce', gender: 'Male', socio: 'High', risk: 'medium', grades: 7.0, attendance: 80, counselingSessions: 2, disciplinaryActions: 1, participation: 85 },
-  { id: 6, name: 'Riya Mehra', roll: '1006', class: '10A', dept: 'Science', gender: 'Female', socio: 'Low', risk: 'high', grades: 5.8, attendance: 65, counselingSessions: 4, disciplinaryActions: 1, participation: 60 },
-  { id: 7, name: 'Karan Gupta', roll: '1007', class: '10C', dept: 'Arts', gender: 'Male', socio: 'Middle', risk: 'low', grades: 8.0, attendance: 85, counselingSessions: 1, disciplinaryActions: 0, participation: 88 },
-  { id: 8, name: 'Fatima Khan', roll: '1008', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'High', risk: 'medium', grades: 6.2, attendance: 82, counselingSessions: 3, disciplinaryActions: 1, participation: 75 },
-  { id: 9, name: 'Suresh Das', roll: '1009', class: '10A', dept: 'Science', gender: 'Male', socio: 'Low', risk: 'high', grades: 4.9, attendance: 55, counselingSessions: 6, disciplinaryActions: 3, participation: 45 },
-  { id: 10, name: 'Neha Joshi', roll: '1010', class: '10C', dept: 'Arts', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.7, attendance: 90, counselingSessions: 1, disciplinaryActions: 0, participation: 87 },
-  { id: 11, name: 'Arjun Yadav', roll: '1011', class: '10A', dept: 'Science', gender: 'Male', socio: 'High', risk: 'medium', grades: 6.8, attendance: 77, counselingSessions: 2, disciplinaryActions: 1, participation: 82 },
-  { id: 12, name: 'Megha Jain', roll: '1012', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.5, attendance: 89, counselingSessions: 1, disciplinaryActions: 0, participation: 90 },
-  { id: 13, name: 'Deepak Kumar', roll: '1013', class: '10C', dept: 'Arts', gender: 'Male', socio: 'Low', risk: 'high', grades: 5.1, attendance: 58, counselingSessions: 5, disciplinaryActions: 2, participation: 48 },
-  { id: 14, name: 'Simran Kaur', roll: '1014', class: '10A', dept: 'Science', gender: 'Female', socio: 'High', risk: 'medium', grades: 6.3, attendance: 79, counselingSessions: 3, disciplinaryActions: 1, participation: 78 },
-  { id: 15, name: 'Mohit Sinha', roll: '1015', class: '10B', dept: 'Commerce', gender: 'Male', socio: 'Middle', risk: 'low', grades: 7.8, attendance: 87, counselingSessions: 1, disciplinaryActions: 0, participation: 89 },
-  { id: 16, name: 'Anjali Roy', roll: '1016', class: '10C', dept: 'Arts', gender: 'Female', socio: 'Low', risk: 'high', grades: 5.6, attendance: 62, counselingSessions: 4, disciplinaryActions: 2, participation: 55 },
-  { id: 17, name: 'Rakesh Nair', roll: '1017', class: '10A', dept: 'Science', gender: 'Male', socio: 'High', risk: 'medium', grades: 6.9, attendance: 81, counselingSessions: 2, disciplinaryActions: 1, participation: 83 },
-  { id: 18, name: 'Pooja Desai', roll: '1018', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.2, attendance: 86, counselingSessions: 1, disciplinaryActions: 0, participation: 85 },
-  { id: 19, name: 'Tarun Mishra', roll: '1019', class: '10C', dept: 'Arts', gender: 'Male', socio: 'Low', risk: 'high', grades: 5.3, attendance: 59, counselingSessions: 5, disciplinaryActions: 2, participation: 52 },
-  { id: 20, name: 'Shweta Agarwal', roll: '1020', class: '10A', dept: 'Science', gender: 'Female', socio: 'High', risk: 'medium', grades: 6.7, attendance: 80, counselingSessions: 2, disciplinaryActions: 1, participation: 81 },
-  { id: 21, name: 'Nitin Bansal', roll: '1021', class: '10B', dept: 'Commerce', gender: 'Male', socio: 'Middle', risk: 'low', grades: 7.6, attendance: 88, counselingSessions: 1, disciplinaryActions: 0, participation: 86 },
-  { id: 22, name: 'Isha Kapoor', roll: '1022', class: '10C', dept: 'Arts', gender: 'Female', socio: 'Low', risk: 'high', grades: 5.4, attendance: 61, counselingSessions: 4, disciplinaryActions: 2, participation: 54 },
-  { id: 23, name: 'Manish Dubey', roll: '1023', class: '10A', dept: 'Science', gender: 'Male', socio: 'High', risk: 'medium', grades: 6.1, attendance: 76, counselingSessions: 3, disciplinaryActions: 1, participation: 79 },
-  { id: 24, name: 'Ritu Sharma', roll: '1024', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.3, attendance: 84, counselingSessions: 1, disciplinaryActions: 0, participation: 87 },
-  { id: 25, name: 'Sanjay Singh', roll: '1025', class: '10C', dept: 'Arts', gender: 'Male', socio: 'Low', risk: 'high', grades: 5.0, attendance: 52, counselingSessions: 6, disciplinaryActions: 3, participation: 43 },
-  { id: 26, name: 'Ayesha Khan', roll: '1026', class: '10A', dept: 'Science', gender: 'Female', socio: 'High', risk: 'medium', grades: 6.6, attendance: 78, counselingSessions: 2, disciplinaryActions: 1, participation: 80 },
-  { id: 27, name: 'Rohit Chawla', roll: '1027', class: '10B', dept: 'Commerce', gender: 'Male', socio: 'Middle', risk: 'low', grades: 7.1, attendance: 83, counselingSessions: 1, disciplinaryActions: 0, participation: 84 },
-  { id: 28, name: 'Neelam Joshi', roll: '1028', class: '10C', dept: 'Arts', gender: 'Female', socio: 'Low', risk: 'high', grades: 5.7, attendance: 63, counselingSessions: 4, disciplinaryActions: 2, participation: 57 },
-  { id: 29, name: 'Vivek Saxena', roll: '1029', class: '10A', dept: 'Science', gender: 'Male', socio: 'High', risk: 'medium', grades: 6.4, attendance: 77, counselingSessions: 3, disciplinaryActions: 1, participation: 76 },
-  { id: 30, name: 'Divya Pillai', roll: '1030', class: '10B', dept: 'Commerce', gender: 'Female', socio: 'Middle', risk: 'low', grades: 7.4, attendance: 85, counselingSessions: 1, disciplinaryActions: 0, participation: 88 },
+  { id: 1, name: 'Amit Sharma', roll: '21CSE001', year: '2nd Year', semester: '4th', section: 'A', dept: 'CSE', gender: 'Male', socio: 'Middle', risk: 'low', cgpa: 8.2, attendance: 92, counselingSessions: 1, disciplinaryActions: 0, participation: 95 },
+  { id: 2, name: 'Priya Singh', roll: '21IT002', year: '2nd Year', semester: '4th', section: 'B', dept: 'IT', gender: 'Female', socio: 'High', risk: 'medium', cgpa: 6.5, attendance: 78, counselingSessions: 3, disciplinaryActions: 1, participation: 80 },
+  { id: 3, name: 'Rahul Verma', roll: '20ECE003', year: '3rd Year', semester: '6th', section: 'A', dept: 'ECE', gender: 'Male', socio: 'Low', risk: 'high', cgpa: 5.2, attendance: 60, counselingSessions: 5, disciplinaryActions: 2, participation: 50 },
+  { id: 4, name: 'Sneha Patel', roll: '22CSE004', year: '1st Year', semester: '2nd', section: 'C', dept: 'CSE', gender: 'Female', socio: 'Middle', risk: 'low', cgpa: 7.9, attendance: 88, counselingSessions: 2, disciplinaryActions: 0, participation: 92 },
+  { id: 5, name: 'Vikram Rao', roll: '21ME005', year: '2nd Year', semester: '4th', section: 'B', dept: 'Mechanical', gender: 'Male', socio: 'High', risk: 'medium', cgpa: 7.0, attendance: 80, counselingSessions: 2, disciplinaryActions: 1, participation: 85 },
+  { id: 6, name: 'Riya Mehra', roll: '20EEE006', year: '3rd Year', semester: '5th', section: 'A', dept: 'EEE', gender: 'Female', socio: 'Low', risk: 'high', cgpa: 5.8, attendance: 65, counselingSessions: 4, disciplinaryActions: 1, participation: 60 },
+  { id: 7, name: 'Karan Gupta', roll: '21Civil007', year: '2nd Year', semester: '3rd', section: 'C', dept: 'Civil', gender: 'Male', socio: 'Middle', risk: 'low', cgpa: 8.0, attendance: 85, counselingSessions: 1, disciplinaryActions: 0, participation: 88 },
+  { id: 8, name: 'Fatima Khan', roll: '22IT008', year: '1st Year', semester: '2nd', section: 'B', dept: 'IT', gender: 'Female', socio: 'High', risk: 'medium', cgpa: 6.2, attendance: 82, counselingSessions: 3, disciplinaryActions: 1, participation: 75 },
+  { id: 9, name: 'Suresh Das', roll: '20CSE009', year: '3rd Year', semester: '6th', section: 'A', dept: 'CSE', gender: 'Male', socio: 'Low', risk: 'high', cgpa: 4.9, attendance: 55, counselingSessions: 6, disciplinaryActions: 3, participation: 45 },
+  { id: 10, name: 'Neha Joshi', roll: '21ECE010', year: '2nd Year', semester: '4th', section: 'C', dept: 'ECE', gender: 'Female', socio: 'Middle', risk: 'low', cgpa: 7.7, attendance: 90, counselingSessions: 1, disciplinaryActions: 0, participation: 87 },
+  { id: 11, name: 'Arjun Yadav', roll: '22ME011', year: '1st Year', semester: '1st', section: 'A', dept: 'Mechanical', gender: 'Male', socio: 'High', risk: 'medium', cgpa: 6.8, attendance: 77, counselingSessions: 2, disciplinaryActions: 1, participation: 82 },
+  { id: 12, name: 'Megha Jain', roll: '21CSE012', year: '2nd Year', semester: '3rd', section: 'B', dept: 'CSE', gender: 'Female', socio: 'Middle', risk: 'low', cgpa: 7.5, attendance: 89, counselingSessions: 1, disciplinaryActions: 0, participation: 90 },
+  { id: 13, name: 'Deepak Kumar', roll: '20EEE013', year: '3rd Year', semester: '5th', section: 'C', dept: 'EEE', gender: 'Male', socio: 'Low', risk: 'high', cgpa: 5.1, attendance: 58, counselingSessions: 5, disciplinaryActions: 2, participation: 48 },
+  { id: 14, name: 'Simran Kaur', roll: '21IT014', year: '2nd Year', semester: '4th', section: 'A', dept: 'IT', gender: 'Female', socio: 'High', risk: 'medium', cgpa: 6.3, attendance: 79, counselingSessions: 3, disciplinaryActions: 1, participation: 78 },
+  { id: 15, name: 'Mohit Sinha', roll: '22Civil015', year: '1st Year', semester: '2nd', section: 'B', dept: 'Civil', gender: 'Male', socio: 'Middle', risk: 'low', cgpa: 7.8, attendance: 87, counselingSessions: 1, disciplinaryActions: 0, participation: 89 },
+  { id: 16, name: 'Anjali Roy', roll: '20ECE016', year: '3rd Year', semester: '6th', section: 'C', dept: 'ECE', gender: 'Female', socio: 'Low', risk: 'high', cgpa: 5.6, attendance: 62, counselingSessions: 4, disciplinaryActions: 2, participation: 55 },
+  { id: 17, name: 'Rakesh Nair', roll: '21CSE017', year: '2nd Year', semester: '3rd', section: 'A', dept: 'CSE', gender: 'Male', socio: 'High', risk: 'medium', cgpa: 6.9, attendance: 81, counselingSessions: 2, disciplinaryActions: 1, participation: 83 },
+  { id: 18, name: 'Pooja Desai', roll: '22IT018', year: '1st Year', semester: '1st', section: 'B', dept: 'IT', gender: 'Female', socio: 'Middle', risk: 'low', cgpa: 7.2, attendance: 86, counselingSessions: 1, disciplinaryActions: 0, participation: 85 },
+  { id: 19, name: 'Tarun Mishra', roll: '20ME019', year: '3rd Year', semester: '5th', section: 'C', dept: 'Mechanical', gender: 'Male', socio: 'Low', risk: 'high', cgpa: 5.3, attendance: 59, counselingSessions: 5, disciplinaryActions: 2, participation: 52 },
+  { id: 20, name: 'Shweta Agarwal', roll: '21EEE020', year: '2nd Year', semester: '4th', section: 'A', dept: 'EEE', gender: 'Female', socio: 'High', risk: 'medium', cgpa: 6.7, attendance: 80, counselingSessions: 2, disciplinaryActions: 1, participation: 81 },
+  { id: 21, name: 'Nitin Bansal', roll: '22Civil021', year: '1st Year', semester: '2nd', section: 'B', dept: 'Civil', gender: 'Male', socio: 'Middle', risk: 'low', cgpa: 7.6, attendance: 88, counselingSessions: 1, disciplinaryActions: 0, participation: 86 },
+  { id: 22, name: 'Isha Kapoor', roll: '20CSE022', year: '3rd Year', semester: '6th', section: 'C', dept: 'CSE', gender: 'Female', socio: 'Low', risk: 'high', cgpa: 5.4, attendance: 61, counselingSessions: 4, disciplinaryActions: 2, participation: 54 },
+  { id: 23, name: 'Manish Dubey', roll: '21ECE023', year: '2nd Year', semester: '3rd', section: 'A', dept: 'ECE', gender: 'Male', socio: 'High', risk: 'medium', cgpa: 6.1, attendance: 76, counselingSessions: 3, disciplinaryActions: 1, participation: 79 },
+  { id: 24, name: 'Ritu Sharma', roll: '22IT024', year: '1st Year', semester: '1st', section: 'B', dept: 'IT', gender: 'Female', socio: 'Middle', risk: 'low', cgpa: 7.3, attendance: 84, counselingSessions: 1, disciplinaryActions: 0, participation: 87 },
+  { id: 25, name: 'Sanjay Singh', roll: '20ME025', year: '3rd Year', semester: '5th', section: 'C', dept: 'Mechanical', gender: 'Male', socio: 'Low', risk: 'high', cgpa: 5.0, attendance: 52, counselingSessions: 6, disciplinaryActions: 3, participation: 43 },
+  { id: 26, name: 'Ayesha Khan', roll: '21EEE026', year: '2nd Year', semester: '4th', section: 'A', dept: 'EEE', gender: 'Female', socio: 'High', risk: 'medium', cgpa: 6.6, attendance: 78, counselingSessions: 2, disciplinaryActions: 1, participation: 80 },
+  { id: 27, name: 'Rohit Chawla', roll: '22CSE027', year: '1st Year', semester: '2nd', section: 'B', dept: 'CSE', gender: 'Male', socio: 'Middle', risk: 'low', cgpa: 7.1, attendance: 83, counselingSessions: 1, disciplinaryActions: 0, participation: 84 },
+  { id: 28, name: 'Neelam Joshi', roll: '20Civil028', year: '3rd Year', semester: '6th', section: 'C', dept: 'Civil', gender: 'Female', socio: 'Low', risk: 'high', cgpa: 5.7, attendance: 63, counselingSessions: 4, disciplinaryActions: 2, participation: 57 },
+  { id: 29, name: 'Vivek Saxena', roll: '21IT029', year: '2nd Year', semester: '3rd', section: 'A', dept: 'IT', gender: 'Male', socio: 'High', risk: 'medium', cgpa: 6.4, attendance: 77, counselingSessions: 3, disciplinaryActions: 1, participation: 76 },
+  { id: 30, name: 'Divya Pillai', roll: '22ECE030', year: '1st Year', semester: '1st', section: 'B', dept: 'ECE', gender: 'Female', socio: 'Middle', risk: 'low', cgpa: 7.4, attendance: 85, counselingSessions: 1, disciplinaryActions: 0, participation: 88 },
+  // 4th Year Students
+  { id: 31, name: 'Abhishek Kumar', roll: '19CSE031', year: '4th Year', semester: '8th', section: 'A', dept: 'CSE', gender: 'Male', socio: 'High', risk: 'low', cgpa: 9.1, attendance: 94, counselingSessions: 0, disciplinaryActions: 0, participation: 96 },
+  { id: 32, name: 'Kritika Sharma', roll: '19IT032', year: '4th Year', semester: '7th', section: 'B', dept: 'IT', gender: 'Female', socio: 'Middle', risk: 'low', cgpa: 8.7, attendance: 91, counselingSessions: 1, disciplinaryActions: 0, participation: 93 },
+  { id: 33, name: 'Rohan Mishra', roll: '19ECE033', year: '4th Year', semester: '8th', section: 'C', dept: 'ECE', gender: 'Male', socio: 'Low', risk: 'medium', cgpa: 7.2, attendance: 79, counselingSessions: 2, disciplinaryActions: 1, participation: 81 },
+  { id: 34, name: 'Sunita Devi', roll: '19EEE034', year: '4th Year', semester: '7th', section: 'A', dept: 'EEE', gender: 'Female', socio: 'High', risk: 'low', cgpa: 8.3, attendance: 89, counselingSessions: 1, disciplinaryActions: 0, participation: 90 },
+  { id: 35, name: 'Gaurav Singh', roll: '19ME035', year: '4th Year', semester: '8th', section: 'B', dept: 'Mechanical', gender: 'Male', socio: 'Middle', risk: 'medium', cgpa: 6.8, attendance: 75, counselingSessions: 3, disciplinaryActions: 1, participation: 77 },
+  { id: 36, name: 'Preeti Nair', roll: '19Civil036', year: '4th Year', semester: '7th', section: 'C', dept: 'Civil', gender: 'Female', socio: 'Low', risk: 'high', cgpa: 5.9, attendance: 68, counselingSessions: 4, disciplinaryActions: 2, participation: 65 },
 ];
 
 // Chart color palette
@@ -101,16 +110,19 @@ const generateRiskData = (): ChartData[] => [
 ];
 
 const generateDepartmentData = (): ChartData[] => [
-  { name: 'Science', value: mockStudents.filter(s => s.dept === 'Science').length, fill: COLORS.blue },
-  { name: 'Commerce', value: mockStudents.filter(s => s.dept === 'Commerce').length, fill: COLORS.teal },
-  { name: 'Arts', value: mockStudents.filter(s => s.dept === 'Arts').length, fill: COLORS.purple },
+  { name: 'CSE', value: mockStudents.filter(s => s.dept === 'CSE').length, fill: COLORS.blue },
+  { name: 'IT', value: mockStudents.filter(s => s.dept === 'IT').length, fill: COLORS.teal },
+  { name: 'ECE', value: mockStudents.filter(s => s.dept === 'ECE').length, fill: COLORS.purple },
+  { name: 'EEE', value: mockStudents.filter(s => s.dept === 'EEE').length, fill: COLORS.yellow },
+  { name: 'Mechanical', value: mockStudents.filter(s => s.dept === 'Mechanical').length, fill: COLORS.orange },
+  { name: 'Civil', value: mockStudents.filter(s => s.dept === 'Civil').length, fill: COLORS.green },
 ];
 
 const generateGradeDistribution = (): ChartData[] => [
-  { name: 'Excellent (8-10)', value: mockStudents.filter(s => s.grades >= 8).length, fill: COLORS.green },
-  { name: 'Good (6-8)', value: mockStudents.filter(s => s.grades >= 6 && s.grades < 8).length, fill: COLORS.yellow },
-  { name: 'Average (4-6)', value: mockStudents.filter(s => s.grades >= 4 && s.grades < 6).length, fill: COLORS.orange },
-  { name: 'Poor (<4)', value: mockStudents.filter(s => s.grades < 4).length, fill: COLORS.red },
+  { name: 'Excellent (8-10)', value: mockStudents.filter(s => s.cgpa >= 8).length, fill: COLORS.green },
+  { name: 'Good (6-8)', value: mockStudents.filter(s => s.cgpa >= 6 && s.cgpa < 8).length, fill: COLORS.yellow },
+  { name: 'Average (4-6)', value: mockStudents.filter(s => s.cgpa >= 4 && s.cgpa < 6).length, fill: COLORS.orange },
+  { name: 'Poor (<4)', value: mockStudents.filter(s => s.cgpa < 4).length, fill: COLORS.red },
 ];
 
 const generateAttendanceData = (): ChartData[] => [
@@ -177,44 +189,50 @@ export function CounsellorDashboard() {
   const [showFilters, setShowFilters] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState('');
-  const [filterClass, setFilterClass] = useState('');
-  const [filterDept, setFilterDept] = useState('');
-  const [filterGender, setFilterGender] = useState('');
-  const [filterSocio, setFilterSocio] = useState('');
-  const [filterRisk, setFilterRisk] = useState('');
+  const [filterClass, setFilterClass] = useState<string[]>([]);
+  const [filterDept, setFilterDept] = useState<string[]>([]);
+  const [filterSection, setFilterSection] = useState<string[]>([]);
+  const [filterGender, setFilterGender] = useState<string[]>([]);
+  const [filterSocio, setFilterSocio] = useState<string[]>([]);
+  const [filterRisk, setFilterRisk] = useState<string[]>([]);
   const [pendingFilters, setPendingFilters] = useState({
-    class: '',
-    dept: '',
-    gender: '',
-    socio: '',
-    risk: ''
+    class: [] as string[],
+    dept: [] as string[],
+    section: [] as string[],
+    gender: [] as string[],
+    socio: [] as string[],
+    risk: [] as string[]
   });
   const [selectedStudent, setSelectedStudent] = useState(null as Student | null);
   const [currentPage, setCurrentPage] = useState('dashboard');
 
   // Unique filter options
-  const classes = [...new Set(mockStudents.map(s => s.class))];
+  const years = [...new Set(mockStudents.map(s => s.year))];
+  const semesters = [...new Set(mockStudents.map(s => s.semester))];
+  const sections = [...new Set(mockStudents.map(s => s.section))];
   const depts = [...new Set(mockStudents.map(s => s.dept))];
   const genders = [...new Set(mockStudents.map(s => s.gender))];
   const socioGroups = [...new Set(mockStudents.map(s => s.socio))];
 
   // Filter and search logic
   const filtered = mockStudents.filter(s =>
-    (!filterClass || s.class === filterClass) &&
-    (!filterDept || s.dept === filterDept) &&
-    (!filterGender || s.gender === filterGender) &&
-    (!filterSocio || s.socio === filterSocio) &&
-    (!filterRisk || s.risk === filterRisk) &&
+    (filterClass.length === 0 || filterClass.includes(s.year)) &&
+    (filterDept.length === 0 || filterDept.includes(s.dept)) &&
+    (filterSection.length === 0 || filterSection.includes(s.section)) &&
+    (filterGender.length === 0 || filterGender.includes(s.gender)) &&
+    (filterSocio.length === 0 || filterSocio.includes(s.socio)) &&
+    (filterRisk.length === 0 || filterRisk.includes(s.risk)) &&
     (s.name.toLowerCase().includes(search.toLowerCase()) || s.roll.includes(search))
   );
 
   // Check if any filters are active
-  const hasActiveFilters = filterClass || filterDept || filterGender || filterSocio || filterRisk;
+  const hasActiveFilters = filterClass.length > 0 || filterDept.length > 0 || filterSection.length > 0 || filterGender.length > 0 || filterSocio.length > 0 || filterRisk.length > 0;
 
   // Apply filters
   const applyFilters = () => {
     setFilterClass(pendingFilters.class);
     setFilterDept(pendingFilters.dept);
+    setFilterSection(pendingFilters.section);
     setFilterGender(pendingFilters.gender);
     setFilterSocio(pendingFilters.socio);
     setFilterRisk(pendingFilters.risk);
@@ -223,17 +241,19 @@ export function CounsellorDashboard() {
 
   // Clear all filters
   const clearFilters = () => {
-    setFilterClass('');
-    setFilterDept('');
-    setFilterGender('');
-    setFilterSocio('');
-    setFilterRisk('');
+    setFilterClass([]);
+    setFilterDept([]);
+    setFilterSection([]);
+    setFilterGender([]);
+    setFilterSocio([]);
+    setFilterRisk([]);
     setPendingFilters({
-      class: '',
-      dept: '',
-      gender: '',
-      socio: '',
-      risk: ''
+      class: [],
+      dept: [],
+      section: [],
+      gender: [],
+      socio: [],
+      risk: []
     });
     setIsDropdownOpen(false);
   };
@@ -267,12 +287,12 @@ export function CounsellorDashboard() {
     { title: 'Avg Attendance', value: Math.round(mockStudents.reduce((acc, s) => acc + s.attendance, 0) / mockStudents.length), unit: '%', color: COLORS.blue, icon: '📊' },
     { title: 'Total Sessions', value: mockStudents.reduce((acc, s) => acc + s.counselingSessions, 0), unit: '', color: COLORS.green, icon: '💬' },
     { title: 'Disciplinary Cases', value: mockStudents.reduce((acc, s) => acc + s.disciplinaryActions, 0), unit: '', color: COLORS.orange, icon: '📋' },
-    { title: 'Avg Grade', value: (mockStudents.reduce((acc, s) => acc + s.grades, 0) / mockStudents.length).toFixed(1), unit: 'GPA', color: COLORS.purple, icon: '🎯' },
+    { title: 'Avg CGPA', value: (mockStudents.reduce((acc, s) => acc + s.cgpa, 0) / mockStudents.length).toFixed(1), unit: 'CGPA', color: COLORS.purple, icon: '🎯' },
   ];
 
   const getStudentMetrics = (student: Student): MetricCard[] => [
     { title: 'Attendance', value: student.attendance, unit: '%', color: COLORS.blue, icon: '📅' },
-    { title: 'Current Grade', value: student.grades, unit: 'GPA', color: COLORS.purple, icon: '📝' },
+    { title: 'Current CGPA', value: student.cgpa, unit: 'CGPA', color: COLORS.purple, icon: '📝' },
     { title: 'Risk Level', value: student.risk.charAt(0).toUpperCase() + student.risk.slice(1), unit: '', color: student.risk === 'low' ? COLORS.green : student.risk === 'medium' ? COLORS.warning : COLORS.danger, icon: '⚡' },
     { title: 'Sessions Attended', value: student.counselingSessions, unit: '', color: COLORS.teal, icon: '💬' },
     { title: 'Disciplinary Actions', value: student.disciplinaryActions, unit: '', color: COLORS.red, icon: '📋' },
@@ -406,11 +426,11 @@ export function CounsellorDashboard() {
                                 <button
                                   key={risk}
                                   style={{
-                                    background: pendingFilters.risk === risk ? 
+                                    background: pendingFilters.risk.includes(risk) ? 
                                       (risk === 'low' ? COLORS.green : risk === 'medium' ? COLORS.warning : COLORS.danger) : 
                                       '#f8fafc',
-                                    color: pendingFilters.risk === risk ? '#fff' : '#64748b',
-                                    border: `1px solid ${pendingFilters.risk === risk ? 'transparent' : '#e2e8f0'}`,
+                                    color: pendingFilters.risk.includes(risk) ? '#fff' : '#64748b',
+                                    border: `1px solid ${pendingFilters.risk.includes(risk) ? 'transparent' : '#e2e8f0'}`,
                                     borderRadius: '6px',
                                     padding: '6px 12px',
                                     cursor: 'pointer',
@@ -420,7 +440,9 @@ export function CounsellorDashboard() {
                                   }}
                                   onClick={() => setPendingFilters(prev => ({ 
                                     ...prev, 
-                                    risk: prev.risk === risk ? '' : risk
+                                    risk: prev.risk.includes(risk) 
+                                      ? prev.risk.filter(item => item !== risk)
+                                      : [...prev.risk, risk]
                                   }))}
                                 >
                                   {risk.toUpperCase()}
@@ -432,16 +454,16 @@ export function CounsellorDashboard() {
                           {/* Class Filter */}
                           <div style={{ marginBottom: '16px' }}>
                             <label style={{ display: 'block', fontWeight: '600', marginBottom: '8px', color: '#374151', fontSize: '13px' }}>
-                              Class
+                              Year
                             </label>
                             <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                              {classes.map(c => (
+                              {years.map(c => (
                                 <button
                                   key={c}
                                   style={{
-                                    background: pendingFilters.class === c ? COLORS.primary : '#f8fafc',
-                                    color: pendingFilters.class === c ? '#fff' : '#64748b',
-                                    border: `1px solid ${pendingFilters.class === c ? 'transparent' : '#e2e8f0'}`,
+                                    background: pendingFilters.class.includes(c) ? COLORS.primary : '#f8fafc',
+                                    color: pendingFilters.class.includes(c) ? '#fff' : '#64748b',
+                                    border: `1px solid ${pendingFilters.class.includes(c) ? 'transparent' : '#e2e8f0'}`,
                                     borderRadius: '6px',
                                     padding: '6px 12px',
                                     cursor: 'pointer',
@@ -451,7 +473,9 @@ export function CounsellorDashboard() {
                                   }}
                                   onClick={() => setPendingFilters(prev => ({ 
                                     ...prev, 
-                                    class: prev.class === c ? '' : c
+                                    class: prev.class.includes(c) 
+                                      ? prev.class.filter(item => item !== c)
+                                      : [...prev.class, c]
                                   }))}
                                 >
                                   {c}
@@ -470,9 +494,9 @@ export function CounsellorDashboard() {
                                 <button
                                   key={d}
                                   style={{
-                                    background: pendingFilters.dept === d ? COLORS.blue : '#f8fafc',
-                                    color: pendingFilters.dept === d ? '#fff' : '#64748b',
-                                    border: `1px solid ${pendingFilters.dept === d ? 'transparent' : '#e2e8f0'}`,
+                                    background: pendingFilters.dept.includes(d) ? COLORS.blue : '#f8fafc',
+                                    color: pendingFilters.dept.includes(d) ? '#fff' : '#64748b',
+                                    border: `1px solid ${pendingFilters.dept.includes(d) ? 'transparent' : '#e2e8f0'}`,
                                     borderRadius: '6px',
                                     padding: '6px 12px',
                                     cursor: 'pointer',
@@ -482,10 +506,45 @@ export function CounsellorDashboard() {
                                   }}
                                   onClick={() => setPendingFilters(prev => ({ 
                                     ...prev, 
-                                    dept: prev.dept === d ? '' : d
+                                    dept: prev.dept.includes(d) 
+                                      ? prev.dept.filter(item => item !== d)
+                                      : [...prev.dept, d]
                                   }))}
                                 >
                                   {d}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Section Filter */}
+                          <div style={{ marginBottom: '16px' }}>
+                            <label style={{ display: 'block', fontWeight: '600', marginBottom: '8px', color: '#374151', fontSize: '13px' }}>
+                              Section
+                            </label>
+                            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                              {sections.map(s => (
+                                <button
+                                  key={s}
+                                  style={{
+                                    background: pendingFilters.section.includes(s) ? COLORS.purple : '#f8fafc',
+                                    color: pendingFilters.section.includes(s) ? '#fff' : '#64748b',
+                                    border: `1px solid ${pendingFilters.section.includes(s) ? 'transparent' : '#e2e8f0'}`,
+                                    borderRadius: '6px',
+                                    padding: '6px 12px',
+                                    cursor: 'pointer',
+                                    fontSize: '12px',
+                                    fontWeight: '500',
+                                    transition: 'all 0.2s ease'
+                                  }}
+                                  onClick={() => setPendingFilters(prev => ({ 
+                                    ...prev, 
+                                    section: prev.section.includes(s) 
+                                      ? prev.section.filter(item => item !== s)
+                                      : [...prev.section, s]
+                                  }))}
+                                >
+                                  {s}
                                 </button>
                               ))}
                             </div>
@@ -668,7 +727,7 @@ export function CounsellorDashboard() {
                               {s.name}
                             </div>
                             <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '4px' }}>
-                              {s.roll} • {s.class} • {s.dept}
+                              {s.roll} • {s.year} • Sem {s.semester} • Sec {s.section} • {s.dept}
                             </div>
                             <div style={{ 
                               fontSize: '11px', 
@@ -749,7 +808,7 @@ export function CounsellorDashboard() {
                    currentPage === 'notifications' ? 'Notifications Center' : 'Counsellor Dashboard'}
                 </h1>
                 <p style={{ color: '#64748b', margin: 0 }}>
-                  {currentPage === 'dashboard' && selectedStudent ? `Roll: ${selectedStudent.roll} | Class: ${selectedStudent.class} | Dept: ${selectedStudent.dept}` : 
+                  {currentPage === 'dashboard' && selectedStudent ? `Roll: ${selectedStudent.roll} | ${selectedStudent.year} | Sem: ${selectedStudent.semester} | Sec: ${selectedStudent.section} | ${selectedStudent.dept}` : 
                    currentPage === 'students' ? 'Manage and monitor all student records' :
                    currentPage === 'analytics' ? 'Career readiness and industry trend analysis' :
                    currentPage === 'interventions' ? 'Track and manage student intervention programs' :

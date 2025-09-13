@@ -6,12 +6,14 @@ interface Student {
   id: number;
   name: string;
   roll: string;
-  class: string;
+  year: string;
+  semester: string;
+  section: string;
   dept: string;
   gender: string;
   socio: string;
   risk: 'low' | 'medium' | 'high';
-  grades: number;
+  cgpa: number;
   attendance: number;
   counselingSessions: number;
   disciplinaryActions: number;

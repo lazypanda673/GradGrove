@@ -59,7 +59,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const sidebar = document.getElementById('sidebar');
-      if (sidebar && !sidebar.contains(event.target as Node) && !isPinned) {
+      if (sidebar && !sidebar.contains(event.target as Node) && !isPinned && isExpanded) {
         setIsExpanded(false);
       }
     };
@@ -77,9 +77,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
     if (onPageChange) {
       onPageChange(href);
     }
-    if (!isPinned) {
-      setIsExpanded(false);
-    }
+    // Keep sidebar open after navigation - user can close manually if needed
   };
 
   return (
@@ -116,8 +114,6 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
           width: isExpanded ? '256px' : '64px'
         }}
-        onMouseEnter={() => !isPinned && setIsExpanded(true)}
-        onMouseLeave={() => !isPinned && setIsExpanded(false)}
       >
         {/* Header */}
         <div style={{
@@ -187,7 +183,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text'
                 }}>
-                  Student Counseling Hub
+                  GradGrove Analytics
                 </div>
                 <button
                   onClick={() => setIsPinned(!isPinned)}
@@ -216,10 +212,10 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
         </div>
 
         {/* Navigation Menu */}
-        <nav style={{ flex: 1, paddingTop: '24px', paddingBottom: '24px', display: 'flex', flexDirection: 'column' }}>
-          <ul style={{ listStyle: 'none', margin: 0, padding: '0 12px', flex: 1 }}>
+        <nav style={{ flex: 1, paddingTop: '32px', paddingBottom: '32px', display: 'flex', flexDirection: 'column' }}>
+          <ul style={{ listStyle: 'none', margin: 0, padding: '0 8px', flex: 1 }}>
             {menuItems.map((item, index) => (
-              <li key={index} style={{ marginBottom: '6px' }}>
+              <li key={index} style={{ marginBottom: '8px' }}>
                 <button
                   onClick={() => handleNavigation(item.href)}
                   style={{
@@ -227,22 +223,23 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px',
-                    padding: '10px 12px',
+                    padding: isExpanded ? '10px 12px' : '10px 8px',
                     borderRadius: '10px',
                     border: 'none',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     position: 'relative',
                     background: item.isActive 
-                      ? 'rgba(255, 255, 255, 0.15)' 
+                      ? 'rgba(255, 255, 255, 0.12)' 
                       : 'transparent',
-                    color: 'white',
+                    color: item.isActive ? '#fbbf24' : 'white',
                     fontSize: '14px',
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    overflow: 'hidden'
                   }}
                   onMouseEnter={(e) => {
                     if (!item.isActive) {
-                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
                     }
                   }}
                   onMouseLeave={(e) => {
@@ -251,34 +248,51 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                     }
                   }}
                 >
+                  {/* Symmetric left accent line for active state */}
+                  {item.isActive && (
+                    <div style={{
+                      position: 'absolute',
+                      left: '0',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      width: '4px',
+                      height: '20px',
+                      background: '#fbbf24',
+                      borderRadius: '0 2px 2px 0'
+                    }} />
+                  )}
+                  
                   <span style={{
                     fontSize: '18px',
                     flexShrink: 0,
-                    width: '20px',
-                    textAlign: 'center'
+                    width: isExpanded ? '24px' : '100%',
+                    textAlign: 'center',
+                    marginLeft: isExpanded ? '8px' : '0'
                   }}>
                     {item.icon}
                   </span>
                   {isExpanded && (
                     <span style={{
-                      fontWeight: '500',
-                      fontSize: '14px'
+                      fontWeight: item.isActive ? '600' : '500',
+                      fontSize: '14px',
+                      flex: 1,
+                      marginRight: '8px'
                     }}>
                       {item.label}
                     </span>
                   )}
                   
-                  {/* Active indicator */}
+                  {/* Symmetric right accent line for active state */}
                   {item.isActive && (
                     <div style={{
                       position: 'absolute',
-                      right: '8px',
+                      right: '0',
                       top: '50%',
                       transform: 'translateY(-50%)',
-                      width: '6px',
-                      height: '6px',
+                      width: '4px',
+                      height: '20px',
                       background: '#fbbf24',
-                      borderRadius: '50%'
+                      borderRadius: '2px 0 0 2px'
                     }} />
                   )}
                 </button>
@@ -287,7 +301,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
           </ul>
           
           {/* Logout Button */}
-          <div style={{ padding: '0 12px', marginTop: 'auto' }}>
+          <div style={{ padding: '0 8px', marginTop: 'auto' }}>
             <button
               onClick={handleLogout}
               style={{
@@ -295,7 +309,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                padding: '10px 12px',
+                padding: isExpanded ? '10px 12px' : '10px 8px',
                 borderRadius: '10px',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 cursor: 'pointer',
@@ -306,8 +320,8 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                 fontWeight: '500'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 187, 36, 0.1)';
-                e.currentTarget.style.borderColor = '#fbbf24';
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'transparent';
@@ -317,8 +331,9 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
               <span style={{
                 fontSize: '18px',
                 flexShrink: 0,
-                width: '20px',
-                textAlign: 'center'
+                width: isExpanded ? '24px' : '100%',
+                textAlign: 'center',
+                marginLeft: isExpanded ? '4px' : '0'
               }}>
                 🚪
               </span>

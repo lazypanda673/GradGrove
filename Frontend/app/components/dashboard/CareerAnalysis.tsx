@@ -8,12 +8,14 @@ interface Student {
   id: number;
   name: string;
   roll: string;
-  class: string;
+  year: string;
+  semester: string;
+  section: string;
   dept: string;
   gender: string;
   socio: string;
   risk: 'low' | 'medium' | 'high';
-  grades: number;
+  cgpa: number;
   attendance: number;
   counselingSessions: number;
   disciplinaryActions: number;
@@ -103,7 +105,7 @@ const CareerAnalysis: React.FC<CareerAnalysisProps> = ({ mockStudents }) => {
             <div style={{ fontSize: '48px', marginBottom: '12px', opacity: 0.2, position: 'absolute', top: '16px', right: '20px' }}>🎯</div>
             <div style={{ fontSize: '14px', opacity: 0.9, marginBottom: '8px', fontWeight: '500' }}>Career Ready Students</div>
             <div style={{ fontSize: '36px', fontWeight: '800', marginBottom: '6px', textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-              {Math.round(mockStudents.filter(s => s.grades >= 7.5 && s.attendance >= 80).length / mockStudents.length * 100)}%
+              {Math.round(mockStudents.filter(s => s.cgpa >= 7.5 && s.attendance >= 80).length / mockStudents.length * 100)}%
             </div>
             <div style={{ fontSize: '13px', opacity: 0.8, display: 'flex', alignItems: 'center', gap: '4px' }}>
               <span style={{ color: '#4ade80' }}>↗</span> +5% from last month

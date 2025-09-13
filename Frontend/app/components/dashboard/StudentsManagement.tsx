@@ -8,12 +8,14 @@ interface Student {
   id: number;
   name: string;
   roll: string;
-  class: string;
+  year: string;
+  semester: string;
+  section: string;
   dept: string;
   gender: string;
   socio: string;
   risk: 'low' | 'medium' | 'high';
-  grades: number;
+  cgpa: number;
   attendance: number;
   counselingSessions: number;
   disciplinaryActions: number;
@@ -284,7 +286,7 @@ const StudentsManagement: React.FC<StudentsManagementProps> = ({ mockStudents })
                         {student.name}
                       </h3>
                       <p style={{ fontSize: '14px', color: '#64748b', margin: '0' }}>
-                        {student.roll} • {student.class} • {student.dept}
+                        {student.roll} • {student.year} • Sem {student.semester} • Sec {student.section} • {student.dept}
                       </p>
                     </div>
                     <div style={{
@@ -310,9 +312,9 @@ const StudentsManagement: React.FC<StudentsManagementProps> = ({ mockStudents })
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '16px' }}>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '20px', fontWeight: '700', color: COLORS.primary, marginBottom: '4px' }}>
-                    {student.grades.toFixed(1)}
+                    {student.cgpa.toFixed(1)}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#64748b' }}>Grade</div>
+                  <div style={{ fontSize: '12px', color: '#64748b' }}>CGPA</div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '20px', fontWeight: '700', color: COLORS.green, marginBottom: '4px' }}>

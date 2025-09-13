@@ -8,12 +8,14 @@ interface Student {
   id: number;
   name: string;
   roll: string;
-  class: string;
+  year: string;
+  semester: string;
+  section: string;
   dept: string;
   gender: string;
   socio: string;
   risk: 'low' | 'medium' | 'high';
-  grades: number;
+  cgpa: number;
   attendance: number;
   counselingSessions: number;
   disciplinaryActions: number;
@@ -72,7 +74,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ selectedStudent, mo
 
   const generateGradeDistribution = () => {
     const gradeBuckets = mockStudents.reduce((acc, s) => {
-      const bucket = s.grades >= 9 ? 'A+' : s.grades >= 8 ? 'A' : s.grades >= 7 ? 'B' : s.grades >= 6 ? 'C' : 'D';
+      const bucket = s.cgpa >= 9 ? 'A+' : s.cgpa >= 8 ? 'A' : s.cgpa >= 7 ? 'B' : s.cgpa >= 6 ? 'C' : 'D';
       acc[bucket] = (acc[bucket] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
@@ -90,7 +92,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ selectedStudent, mo
   ];
 
   const getStudentMetrics = (student: Student): MetricCard[] => [
-    { title: 'Overall Grade', value: student.grades.toFixed(1), unit: '/10', color: COLORS.blue, icon: '📊' },
+    { title: 'Overall CGPA', value: student.cgpa.toFixed(1), unit: '/10', color: COLORS.blue, icon: '📊' },
     { title: 'Attendance', value: student.attendance, unit: '%', color: COLORS.green, icon: '✅' },
     { title: 'Participation', value: student.participation, unit: '%', color: COLORS.purple, icon: '🙋' },
     { title: 'Sessions', value: student.counselingSessions, unit: '', color: COLORS.teal, icon: '💬' },
@@ -232,10 +234,10 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ selectedStudent, mo
               </h3>
               <ResponsiveContainer width="100%" height={400}>
                 <AreaChart data={[
-                  { month: 'Jan', attendance: selectedStudent.attendance - 10, grades: selectedStudent.grades - 0.5, participation: selectedStudent.participation - 15 },
-                  { month: 'Feb', attendance: selectedStudent.attendance - 5, grades: selectedStudent.grades - 0.2, participation: selectedStudent.participation - 8 },
-                  { month: 'Mar', attendance: selectedStudent.attendance + 2, grades: selectedStudent.grades + 0.1, participation: selectedStudent.participation + 3 },
-                  { month: 'Apr', attendance: selectedStudent.attendance, grades: selectedStudent.grades, participation: selectedStudent.participation },
+                  { month: 'Jan', attendance: selectedStudent.attendance - 10, cgpa: selectedStudent.cgpa - 0.5, participation: selectedStudent.participation - 15 },
+                  { month: 'Feb', attendance: selectedStudent.attendance - 5, cgpa: selectedStudent.cgpa - 0.2, participation: selectedStudent.participation - 8 },
+                  { month: 'Mar', attendance: selectedStudent.attendance + 2, cgpa: selectedStudent.cgpa + 0.1, participation: selectedStudent.participation + 3 },
+                  { month: 'Apr', attendance: selectedStudent.attendance, cgpa: selectedStudent.cgpa, participation: selectedStudent.participation },
                 ]}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
