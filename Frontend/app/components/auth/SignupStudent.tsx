@@ -56,8 +56,7 @@ export default function SignupStudent({ onSignup }: SignupStudentProps) {
     firstName: '',
     middleName: '',
     lastName: '',
-    phone: '',
-    institute: ''
+    phone: ''
   });
   const [errors, setErrors] = useState<any>({});
   const [countryCode, setCountryCode] = useState('+91');
@@ -76,7 +75,6 @@ export default function SignupStudent({ onSignup }: SignupStudentProps) {
     newErrors.middleName = validateMiddleName(form.middleName);
     newErrors.lastName = validateLastName(form.lastName);
     newErrors.phone = validatePhone(form.phone);
-    newErrors.institute = !form.institute.trim() ? 'Institute name required.' : '';
     setErrors(newErrors);
     if (Object.values(newErrors).every(x => !x || (Array.isArray(x) && x.length === 0))) {
       onSignup && onSignup({ ...form, phone: countryCode + form.phone });
@@ -116,8 +114,6 @@ export default function SignupStudent({ onSignup }: SignupStudentProps) {
         <input name="phone" type="text" placeholder="Phone Number *" value={form.phone} onChange={handleChange} required style={{ padding: 10, borderRadius: 6, border: '1px solid #ddd', flex: 1 }} />
       </div>
       {errors.phone && <span style={{ color: 'red', fontSize: '0.95em' }}>{errors.phone}</span>}
-      <input name="institute" type="text" placeholder="Institute Name *" value={form.institute} onChange={handleChange} required style={{ padding: 10, borderRadius: 6, border: '1px solid #ddd' }} />
-      {errors.institute && <span style={{ color: 'red', fontSize: '0.95em' }}>{errors.institute}</span>}
       <button type="submit" style={{ padding: '12px 24px', background: 'var(--color-primary)', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: '1rem', fontWeight: 600 }}>Sign Up</button>
     </form>
   );

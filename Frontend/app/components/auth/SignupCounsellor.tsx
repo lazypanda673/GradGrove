@@ -50,7 +50,6 @@ export default function SignupCounsellor({ onSignup }: SignupCounsellorProps) {
         lastName: '',
         email: '',
         password: '',
-        institute: '',
         phone: ''
     });
     const [errors, setErrors] = useState<any>({});
@@ -69,7 +68,6 @@ export default function SignupCounsellor({ onSignup }: SignupCounsellorProps) {
         newErrors.email = validateEmail(form.email);
         newErrors.password = validatePassword(form.password);
         newErrors.phone = validatePhone(form.phone);
-        newErrors.institute = !form.institute.trim() ? 'Institute name required.' : '';
         setErrors(newErrors);
         if (Object.values(newErrors).every(x => !x || (Array.isArray(x) && x.length === 0))) {
             onSignup && onSignup({ ...form, phone: countryCode + form.phone });
@@ -97,8 +95,6 @@ export default function SignupCounsellor({ onSignup }: SignupCounsellorProps) {
                     <li style={{ color: '#555', fontSize: '0.93em', marginTop: 4 }}>Example: <b>Abcdef12!</b></li>
                 </ul>
             )}
-            <input name="institute" type="text" placeholder="Institute Name *" value={form.institute} onChange={handleChange} required style={{ padding: 10, borderRadius: 6, border: '1px solid #ddd' }} />
-            {errors.institute && <span style={{ color: 'red', fontSize: '0.95em' }}>{errors.institute}</span>}
             <div style={{ display: 'flex', gap: 8 }}>
                 <select value={countryCode} onChange={e => setCountryCode(e.target.value)} style={{ padding: 10, borderRadius: 6, border: '1px solid #ddd', width: 80 }}>
                     <option value="+91">+91</option>
