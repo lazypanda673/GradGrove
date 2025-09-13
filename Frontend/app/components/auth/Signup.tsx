@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import SignupStudent from "./SignupStudent";
 import SignupCounsellor from "./SignupCounsellor";
-import AnimatedElement from "./AnimatedElement";
+import AnimatedElement from "../common/AnimatedElement";
 
 export default function Signup() {
     const [role, setRole] = useState("student");
