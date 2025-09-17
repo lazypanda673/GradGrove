@@ -1,7 +1,7 @@
 
 # GradGrove
 
-Prototype for SIH 2025 Problem Statement 25102: AI-based drop-out prediction and counseling system.
+Comprehensive platform for AI-based student drop-out prediction and counseling (SIH 2025 Problem Statement 25102).
 
 ## Table of Contents
 
@@ -15,67 +15,84 @@ Prototype for SIH 2025 Problem Statement 25102: AI-based drop-out prediction and
 
 ## About
 
-GradGrove is an AI-powered platform designed to predict student drop-outs and provide personalized counseling. Built for SIH 2025, it leverages modern web technologies and machine learning to support students, mentors, and administrators.
+GradGrove is an AI-powered web application supporting students, mentors, counsellors, and administrators. It combines a Node.js/Express backend (with ML integration) and a React frontend to deliver predictive analytics and personalized support.
 
 ## Features
 
-- Student, Mentor, Counsellor, and Admin dashboards
-- AI-based drop-out prediction
-- User survey and student form
-- Secure login system
-- Responsive UI
+- Role-based dashboards (Student, Mentor, Counsellor, Admin)
+- AI-driven drop-out risk prediction
+- Student surveys and forms
+- Secure authentication
+- Responsive, modern UI
+- Admin analytics and user management
 
 ## Setup
 
-After cloning the repository, follow these steps:
+### Backend
 
-1. **Install dependencies**
+1. Navigate to `backend/`
+2. Install dependencies:
 
-```powershell
-npm install
-```
+   ```powershell
+   npm install
+   ```
 
-1. **Start the development server**
+3. Configure environment variables in `backend/.env`
+4. Start backend server:
 
-```powershell
-npm start
-```
+   ```powershell
+   npm start
+   ```
 
-1. Open your browser and navigate to `http://localhost:3000`
+### Frontend
+
+1. Navigate to `frontend/`
+2. Install dependencies:
+  
+   ```powershell
+   npm install
+   ```
+
+3. Start Next.js app:
+
+   ```powershell
+   npm run dev
+   ```
+
+4. Open your browser at `http://localhost:3000`
 
 ## Usage
 
-- Use the navigation bar to access different dashboards and features.
-- Admins can manage users and view analytics.
-- Mentors and counsellors can view student data and provide support.
-- Students can fill out surveys and access resources.
+- Use dashboards according to your role
+- Admins: manage users, view analytics
+- Mentors/Counsellors: support students, view risk predictions
+- Students: fill surveys, access resources
 
 ## Project Structure
 
 ```text
-src/
-  App.js
-  index.js
-  index.css
-  components/
-    Admin.js
-    Counsellor.js
-    Landing.js
-    Login.js
-    MentorDashboard.js
-    Navbar.js
-    StudentDashboard.js
-    StudentForm.js
-    UserSurvey.js
-public/
-  index.html
-  ...
+GradGrove/
+├── backend/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── scripts/
+│   └── ...
+├── frontend/
+│   ├── app/
+│   │   ├── components/
+│   │   ├── admin/
+│   │   ├── student/
+│   │   └── ...
+│   └── public/
+└── README.md
 ```
 
 ## Contributing
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcome! For major changes, open an issue first to discuss your proposal.
 
 ## License
 
-This code is proprietary and intended only for use by the GradGrove hackathon team. Do not copy, modify, or distribute without permission.
+Proprietary for GradGrove hackathon team. Do not copy, modify, or distribute without permission.

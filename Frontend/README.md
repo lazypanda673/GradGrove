@@ -1,81 +1,36 @@
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-# GradGrove
+## Getting Started
 
-Prototype for SIH 2025 Problem Statement 25102: AI-based drop-out prediction and counseling system.
+First, run the development server:
 
-## Table of Contents
-
-- [About](#about)
-- [Features](#features)
-- [Setup](#setup)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
-
-## About
-
-GradGrove is an AI-powered platform designed to predict student drop-outs and provide personalized counseling. Built for SIH 2025, it leverages modern web technologies and machine learning to support students, mentors, and administrators.
-
-## Features
-
-- Student, Mentor, Counsellor, and Admin dashboards
-- AI-based drop-out prediction
-- User survey and student form
-- Secure login system
-- Responsive UI
-
-## Setup
-
-After cloning the repository, follow these steps:
-
-1. **Install dependencies**
-
-```powershell
-npm install
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-1. **Start the development server**
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```powershell
-npm start
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-1. Open your browser and navigate to `http://localhost:3000`
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Usage
+## Learn More
 
-- Use the navigation bar to access different dashboards and features.
-- Admins can manage users and view analytics.
-- Mentors and counsellors can view student data and provide support.
-- Students can fill out surveys and access resources.
+To learn more about Next.js, take a look at the following resources:
 
-## Project Structure
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-```text
-src/
-  App.js
-  index.js
-  index.css
-  components/
-    Admin.js
-    Counsellor.js
-    Landing.js
-    Login.js
-    MentorDashboard.js
-    Navbar.js
-    StudentDashboard.js
-    StudentForm.js
-    UserSurvey.js
-public/
-  index.html
-  ...
-```
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Contributing
+## Deploy on Vercel
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## License
-
-This code is proprietary and intended only for use by the GradGrove hackathon team. Do not copy, modify, or distribute without permission.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
