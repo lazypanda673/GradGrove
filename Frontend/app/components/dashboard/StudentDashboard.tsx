@@ -212,9 +212,9 @@ function StudentDashboard() {
   // Refined menu items (counselling-focused only)
   const studentMenuItems = [
     { icon: '🏠', label: 'Dashboard', href: 'dashboard' },
-    { icon: '�', label: 'Assessment Form', href: 'assessment' },
+    { icon: '📝', label: 'Assessment Form', href: 'assessment' },
     { icon: '📚', label: 'Academic Records', href: 'records' },
-    { icon: '�', label: 'Progress Report', href: 'progress' },
+    { icon: '📈', label: 'Progress Report', href: 'progress' },
     { icon: '🏆', label: 'Achievements', href: 'achievements' },
     { icon: '💬', label: 'Counseling Sessions', href: 'sessions' },
     { icon: '🎯', label: 'Career Guidance', href: 'career' },

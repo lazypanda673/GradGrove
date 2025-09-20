@@ -27,7 +27,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
   const getMenuItems = (): MenuItem[] => {
     // Use custom menu items if provided, otherwise use default counselor items
     const baseItems = customMenuItems || [
-      { icon: '📊', label: 'Dashboard', href: 'dashboard' },
+      { icon: '🏠', label: 'Dashboard', href: 'dashboard' },
       { icon: '👥', label: 'Students', href: 'students' },
       { icon: '📈', label: 'Analytics', href: 'analytics' },
       { icon: '💬', label: 'Sessions', href: 'sessions' },

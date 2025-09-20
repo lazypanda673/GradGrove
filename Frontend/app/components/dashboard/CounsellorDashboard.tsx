@@ -89,7 +89,7 @@ const mockStudents: Student[] = [
 // Chart color palette
 const COLORS = {
   primary: '#3b82f6',
-  secondary: '#10b981', 
+  secondary: '#10b981',
   warning: '#f59e0b',
   danger: '#ef4444',
   accent: '#8b5cf6',
@@ -271,7 +271,7 @@ export function CounsellorDashboard() {
     // For now, show an alert with student information
     // In a real implementation, this would open a modal or navigate to an edit form
     alert(`Update data for ${student.name} (Roll: ${student.roll})\n\nThis would typically:\n- Open a form with current student data\n- Allow editing of grades, attendance, counseling notes\n- Save changes to database\n- Refresh the dashboard`);
-    
+
     // TODO: Implement actual update functionality
     // This could involve:
     // 1. Opening a modal with editable form
@@ -325,19 +325,19 @@ export function CounsellorDashboard() {
           <div style={{ display: 'flex', flex: 1, gap: '20px', padding: '20px 0' }}>
             {/* Students Sidebar */}
             <AnimatedElement animation="slideInLeft" delay={100}>
-              <div style={{ 
-                width: '350px', 
-                minWidth: '350px', 
-                background: '#fff', 
+              <div style={{
+                width: '350px',
+                minWidth: '350px',
+                background: '#fff',
                 borderRadius: '16px',
                 boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
-                border: '1px solid #e2e8f0', 
-                display: 'flex', 
-                flexDirection: 'column', 
+                border: '1px solid #e2e8f0',
+                display: 'flex',
+                flexDirection: 'column',
                 maxHeight: 'calc(100vh - 180px)',
                 overflow: 'hidden'
               }}>
-                
+
                 {/* Search and Filters */}
                 <div style={{ padding: '24px', borderBottom: '1px solid #e2e8f0' }}>
                   <div style={{ marginBottom: '16px' }}>
@@ -346,17 +346,17 @@ export function CounsellorDashboard() {
                       placeholder="Search students..."
                       value={search}
                       onChange={e => setSearch(e.target.value)}
-                      style={{ 
-                        width: '100%', 
-                        padding: '12px', 
-                        borderRadius: '8px', 
-                        border: '1px solid #e2e8f0', 
+                      style={{
+                        width: '100%',
+                        padding: '12px',
+                        borderRadius: '8px',
+                        border: '1px solid #e2e8f0',
                         fontSize: '14px',
                         boxSizing: 'border-box'
                       }}
                     />
                   </div>
-                  
+
                   {/* Filter Controls */}
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <div style={{ position: 'relative', flex: 1 }}>
@@ -391,14 +391,14 @@ export function CounsellorDashboard() {
                         <span>
                           {hasActiveFilters ? '🔍 Filters Active' : '⚙️ Filter Students'}
                         </span>
-                        <span style={{ 
-                          transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', 
-                          transition: 'transform 0.3s ease' 
+                        <span style={{
+                          transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                          transition: 'transform 0.3s ease'
                         }}>
                           ▼
                         </span>
                       </button>
-                      
+
                       {/* Dropdown Menu */}
                       {isDropdownOpen && (
                         <div style={{
@@ -426,8 +426,8 @@ export function CounsellorDashboard() {
                                 <button
                                   key={risk}
                                   style={{
-                                    background: pendingFilters.risk.includes(risk) ? 
-                                      (risk === 'low' ? COLORS.green : risk === 'medium' ? COLORS.warning : COLORS.danger) : 
+                                    background: pendingFilters.risk.includes(risk) ?
+                                      (risk === 'low' ? COLORS.green : risk === 'medium' ? COLORS.warning : COLORS.danger) :
                                       '#f8fafc',
                                     color: pendingFilters.risk.includes(risk) ? '#fff' : '#64748b',
                                     border: `1px solid ${pendingFilters.risk.includes(risk) ? 'transparent' : '#e2e8f0'}`,
@@ -438,9 +438,9 @@ export function CounsellorDashboard() {
                                     fontWeight: '500',
                                     transition: 'all 0.2s ease'
                                   }}
-                                  onClick={() => setPendingFilters(prev => ({ 
-                                    ...prev, 
-                                    risk: prev.risk.includes(risk) 
+                                  onClick={() => setPendingFilters(prev => ({
+                                    ...prev,
+                                    risk: prev.risk.includes(risk)
                                       ? prev.risk.filter(item => item !== risk)
                                       : [...prev.risk, risk]
                                   }))}
@@ -471,9 +471,9 @@ export function CounsellorDashboard() {
                                     fontWeight: '500',
                                     transition: 'all 0.2s ease'
                                   }}
-                                  onClick={() => setPendingFilters(prev => ({ 
-                                    ...prev, 
-                                    class: prev.class.includes(c) 
+                                  onClick={() => setPendingFilters(prev => ({
+                                    ...prev,
+                                    class: prev.class.includes(c)
                                       ? prev.class.filter(item => item !== c)
                                       : [...prev.class, c]
                                   }))}
@@ -504,9 +504,9 @@ export function CounsellorDashboard() {
                                     fontWeight: '500',
                                     transition: 'all 0.2s ease'
                                   }}
-                                  onClick={() => setPendingFilters(prev => ({ 
-                                    ...prev, 
-                                    dept: prev.dept.includes(d) 
+                                  onClick={() => setPendingFilters(prev => ({
+                                    ...prev,
+                                    dept: prev.dept.includes(d)
                                       ? prev.dept.filter(item => item !== d)
                                       : [...prev.dept, d]
                                   }))}
@@ -537,9 +537,9 @@ export function CounsellorDashboard() {
                                     fontWeight: '500',
                                     transition: 'all 0.2s ease'
                                   }}
-                                  onClick={() => setPendingFilters(prev => ({ 
-                                    ...prev, 
-                                    section: prev.section.includes(s) 
+                                  onClick={() => setPendingFilters(prev => ({
+                                    ...prev,
+                                    section: prev.section.includes(s)
                                       ? prev.section.filter(item => item !== s)
                                       : [...prev.section, s]
                                   }))}
@@ -606,7 +606,7 @@ export function CounsellorDashboard() {
                         </div>
                       )}
                     </div>
-                    
+
                     {/* Clear Filters Button (only show when filters are active) */}
                     {hasActiveFilters && (
                       <button
@@ -639,10 +639,10 @@ export function CounsellorDashboard() {
                 </div>
 
 
-                
+
                 {/* Students List */}
-                <div style={{ 
-                  flex: 1, 
+                <div style={{
+                  flex: 1,
                   overflowY: 'auto',
                   /* Custom scrollbar styles */
                   scrollbarWidth: 'thin',
@@ -680,14 +680,14 @@ export function CounsellorDashboard() {
                         'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&h=150&fit=crop&crop=face'
                       ];
                       const profilePic = profilePictures[s.id % profilePictures.length];
-                      
+
                       return (
                         <div
                           key={s.id}
-                          style={{ 
-                            padding: '16px 20px', 
+                          style={{
+                            padding: '16px 20px',
                             borderBottom: '1px solid #f1f5f9',
-                            cursor: 'pointer', 
+                            cursor: 'pointer',
                             background: selectedStudent?.id === s.id ? '#eff6ff' : 'transparent',
                             borderLeft: selectedStudent?.id === s.id ? `4px solid ${COLORS.primary}` : '4px solid transparent',
                             transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -720,7 +720,7 @@ export function CounsellorDashboard() {
                             transition: 'all 0.3s ease',
                             flexShrink: 0
                           }} />
-                          
+
                           {/* Student Info */}
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ fontWeight: '600', color: '#1a202c', marginBottom: '4px', fontSize: '14px' }}>
@@ -729,8 +729,8 @@ export function CounsellorDashboard() {
                             <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '4px' }}>
                               {s.roll} • {s.year} • Sem {s.semester} • Sec {s.section} • {s.dept}
                             </div>
-                            <div style={{ 
-                              fontSize: '11px', 
+                            <div style={{
+                              fontSize: '11px',
                               fontWeight: '600',
                               color: s.risk === 'low' ? COLORS.green : s.risk === 'medium' ? COLORS.warning : COLORS.danger,
                               background: s.risk === 'low' ? `${COLORS.green}15` : s.risk === 'medium' ? `${COLORS.warning}15` : `${COLORS.danger}15`,
@@ -748,7 +748,7 @@ export function CounsellorDashboard() {
                 </div>
               </div>
             </AnimatedElement>
-            
+
             {/* Dashboard Content */}
             <DashboardContent selectedStudent={selectedStudent} mockStudents={mockStudents} />
           </div>
@@ -759,22 +759,22 @@ export function CounsellorDashboard() {
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: 'Segoe UI, Arial, sans-serif', display: 'flex' }}>
       {/* Sidebar Component */}
-      <Sidebar 
-        role="counsellor" 
-        currentPage={currentPage} 
+      <Sidebar
+        role="counsellor"
+        currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
-      
+
       {/* Main Content Area */}
-      <div style={{ 
-        marginLeft: '72px', 
-        flex: 1, 
+      <div style={{
+        marginLeft: '72px',
+        flex: 1,
         transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column'
       }}>
-        
+
         {/* Header Section */}
         <div style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', padding: '20px 40px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -798,24 +798,24 @@ export function CounsellorDashboard() {
               )}
               <div>
                 <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#1a202c', margin: '0 0 8px 0' }}>
-                  {currentPage === 'dashboard' && selectedStudent ? `${selectedStudent.name} Dashboard` : 
-                   currentPage === 'students' ? 'Students Management' :
-                   currentPage === 'analytics' ? 'Career Analysis' :
-                   currentPage === 'interventions' ? 'Interventions Management' :
-                   currentPage === 'sessions' ? 'Sessions Management' :
-                   currentPage === 'schedule' ? 'Schedule & Calendar' :
-                   currentPage === 'settings' ? 'Settings & Preferences' :
-                   currentPage === 'notifications' ? 'Notifications Center' : 'Counsellor Dashboard'}
+                  {currentPage === 'dashboard' && selectedStudent ? `${selectedStudent.name} Dashboard` :
+                    currentPage === 'students' ? 'Students Management' :
+                      currentPage === 'analytics' ? 'Career Analysis' :
+                        currentPage === 'interventions' ? 'Interventions Management' :
+                          currentPage === 'sessions' ? 'Sessions Management' :
+                            currentPage === 'schedule' ? 'Schedule & Calendar' :
+                              currentPage === 'settings' ? 'Settings & Preferences' :
+                                currentPage === 'notifications' ? 'Notifications Center' : 'Counsellor Dashboard'}
                 </h1>
                 <p style={{ color: '#64748b', margin: 0 }}>
-                  {currentPage === 'dashboard' && selectedStudent ? `Roll: ${selectedStudent.roll} | ${selectedStudent.year} | Sem: ${selectedStudent.semester} | Sec: ${selectedStudent.section} | ${selectedStudent.dept}` : 
-                   currentPage === 'students' ? 'Manage and monitor all student records' :
-                   currentPage === 'analytics' ? 'Career readiness and industry trend analysis' :
-                   currentPage === 'interventions' ? 'Track and manage student intervention programs' :
-                   currentPage === 'sessions' ? 'Schedule and monitor counseling sessions' :
-                   currentPage === 'schedule' ? 'Manage your daily schedule and appointments' :
-                   currentPage === 'settings' ? 'Configure your account and system preferences' :
-                   currentPage === 'notifications' ? 'View and manage all system notifications' : 'Student Analytics & Counseling Overview'}
+                  {currentPage === 'dashboard' && selectedStudent ? `Roll: ${selectedStudent.roll} | ${selectedStudent.year} | Sem: ${selectedStudent.semester} | Sec: ${selectedStudent.section} | ${selectedStudent.dept}` :
+                    currentPage === 'students' ? 'Manage and monitor all student records' :
+                      currentPage === 'analytics' ? 'Career readiness and industry trend analysis' :
+                        currentPage === 'interventions' ? 'Track and manage student intervention programs' :
+                          currentPage === 'sessions' ? 'Schedule and monitor counseling sessions' :
+                            currentPage === 'schedule' ? 'Manage your daily schedule and appointments' :
+                              currentPage === 'settings' ? 'Configure your account and system preferences' :
+                                currentPage === 'notifications' ? 'View and manage all system notifications' : 'Student Analytics & Counseling Overview'}
                 </p>
               </div>
             </div>
