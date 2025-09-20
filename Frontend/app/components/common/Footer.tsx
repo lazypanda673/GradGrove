@@ -3,43 +3,49 @@ import React from "react";
 
 export default function Footer() {
     return (
-        <footer className="fade-in" style={{ textAlign: 'center', padding: '48px 0 24px 0', color: 'var(--color-background)', fontSize: '1.08rem', background: 'var(--color-primary)', marginTop: 48 }}>
-            <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 32 }}>
-                <div className="slide-in-left animate-delay-100" style={{ flex: 1, minWidth: 220, textAlign: 'left' }}>
-                    <div className="hover-scale transition-all" style={{ background: '#fff', borderRadius: 12, padding: 8, display: 'inline-block', boxShadow: '0 2px 8px #2222', marginBottom: 12 }}>
-                        <img src="/Brand_logo.png" alt="GradGrove Logo" style={{ width: 48, display: 'block' }} />
+        <footer className="text-center py-12 px-6 text-white text-lg bg-gradient-to-r from-gg-primary to-gg-blue mt-12">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
+                <div className="space-y-4">
+                    <div className="bg-white rounded-xl p-2 inline-block shadow-lg hover:scale-105 transition-all duration-300">
+                        <img src="/Brand_logo.png" alt="GradGrove Logo" className="w-12 block" />
                     </div>
-                    <div style={{ fontWeight: 700, fontSize: '1.2rem', marginBottom: 8, color: 'var(--color-background)' }}>GradGrove</div>
-                    <div style={{ fontSize: '1rem', color: 'var(--color-background)', marginBottom: 12 }}>
+                    <div className="font-bold text-xl text-white">GradGrove</div>
+                    <div className="text-base text-white/90 leading-relaxed">
                         AI-based Drop-out Prediction & Counseling System for modern institutions. Empowering students, mentors, and admins with actionable insights and support.
                     </div>
                 </div>
-                <div className="slide-in-up animate-delay-200" style={{ flex: 1, minWidth: 180, textAlign: 'left' }}>
-                    <div style={{ fontWeight: 600, marginBottom: 10 }}>Quick Links</div>
-                    <a href="/" style={{ color: 'var(--color-background)', textDecoration: 'none', display: 'block', marginBottom: 6, transition: 'color 0.2s, text-decoration 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; (e.target as HTMLAnchorElement).style.textDecoration = 'underline'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; (e.target as HTMLAnchorElement).style.textDecoration = 'none'; }}>Home</a>
-                    <a href="/login" style={{ color: 'var(--color-background)', textDecoration: 'none', display: 'block', marginBottom: 6, transition: 'color 0.2s, text-decoration 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; (e.target as HTMLAnchorElement).style.textDecoration = 'underline'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; (e.target as HTMLAnchorElement).style.textDecoration = 'none'; }}>Login</a>
-                    <a href="/signup" style={{ color: 'var(--color-background)', textDecoration: 'none', display: 'block', marginBottom: 6, transition: 'color 0.2s, text-decoration 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; (e.target as HTMLAnchorElement).style.textDecoration = 'underline'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; (e.target as HTMLAnchorElement).style.textDecoration = 'none'; }}>Sign Up</a>
-                    <a href="#features" style={{ color: 'var(--color-background)', textDecoration: 'none', display: 'block', marginBottom: 6, transition: 'color 0.2s, text-decoration 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; (e.target as HTMLAnchorElement).style.textDecoration = 'underline'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; (e.target as HTMLAnchorElement).style.textDecoration = 'none'; }}>Features</a>
-                    <a href="#team" style={{ color: 'var(--color-background)', textDecoration: 'none', display: 'block', marginBottom: 6, transition: 'color 0.2s, text-decoration 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; (e.target as HTMLAnchorElement).style.textDecoration = 'underline'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; (e.target as HTMLAnchorElement).style.textDecoration = 'none'; }}>Team</a>
-                    <a href="#contact" style={{ color: 'var(--color-background)', textDecoration: 'none', display: 'block', marginBottom: 6, transition: 'color 0.2s, text-decoration 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; (e.target as HTMLAnchorElement).style.textDecoration = 'underline'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; (e.target as HTMLAnchorElement).style.textDecoration = 'none'; }}>Contact</a>
+                <div className="space-y-4">
+                    <div className="font-semibold text-white">Quick Links</div>
+                    <div className="space-y-2">
+                        <a href="/" className="text-white/90 hover:text-gg-green hover:underline block transition-all duration-200">Home</a>
+                        <a href="/login" className="text-white/90 hover:text-gg-green hover:underline block transition-all duration-200">Login</a>
+                        <a href="/signup" className="text-white/90 hover:text-gg-green hover:underline block transition-all duration-200">Sign Up</a>
+                        <a href="#features" className="text-white/90 hover:text-gg-green hover:underline block transition-all duration-200">Features</a>
+                        <a href="#team" className="text-white/90 hover:text-gg-green hover:underline block transition-all duration-200">Team</a>
+                        <a href="#contact" className="text-white/90 hover:text-gg-green hover:underline block transition-all duration-200">Contact</a>
+                    </div>
                 </div>
-                <div style={{ flex: 1, minWidth: 180, textAlign: 'left' }}>
-                    <div style={{ fontWeight: 600, marginBottom: 10 }}>Legal</div>
-                    <a href="#" style={{ color: 'var(--color-background)', textDecoration: 'none', display: 'block', marginBottom: 6, transition: 'color 0.2s, text-decoration 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; (e.target as HTMLAnchorElement).style.textDecoration = 'underline'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; (e.target as HTMLAnchorElement).style.textDecoration = 'none'; }}>Privacy Policy</a>
-                    <a href="#" style={{ color: 'var(--color-background)', textDecoration: 'none', display: 'block', marginBottom: 6, transition: 'color 0.2s, text-decoration 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; (e.target as HTMLAnchorElement).style.textDecoration = 'underline'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; (e.target as HTMLAnchorElement).style.textDecoration = 'none'; }}>Terms of Service</a>
-                    <a href="#" style={{ color: 'var(--color-background)', textDecoration: 'none', display: 'block', marginBottom: 6, transition: 'color 0.2s, text-decoration 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; (e.target as HTMLAnchorElement).style.textDecoration = 'underline'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; (e.target as HTMLAnchorElement).style.textDecoration = 'none'; }}>Careers</a>
+                <div className="space-y-4">
+                    <div className="font-semibold text-white">Legal</div>
+                    <div className="space-y-2">
+                        <a href="#" className="text-white/90 hover:text-gg-green hover:underline block transition-all duration-200">Privacy Policy</a>
+                        <a href="#" className="text-white/90 hover:text-gg-green hover:underline block transition-all duration-200">Terms of Service</a>
+                        <a href="#" className="text-white/90 hover:text-gg-green hover:underline block transition-all duration-200">Careers</a>
+                    </div>
                 </div>
-                <div style={{ flex: 1, minWidth: 180, textAlign: 'left' }}>
-                    <div style={{ fontWeight: 600, marginBottom: 10 }}>Connect</div>
-                    <a href="mailto:gradgrove@sih2025.com" style={{ color: 'var(--color-background)', textDecoration: 'none', display: 'block', marginBottom: 6, transition: 'color 0.2s, text-decoration 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; (e.target as HTMLAnchorElement).style.textDecoration = 'underline'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; (e.target as HTMLAnchorElement).style.textDecoration = 'none'; }}>Email Us</a>
-                    <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
-                        <a href="#" style={{ color: 'var(--color-background)', fontSize: 22, transition: 'color 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; }} title="Twitter">🐦</a>
-                        <a href="#" style={{ color: 'var(--color-background)', fontSize: 22, transition: 'color 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; }} title="LinkedIn">💼</a>
-                        <a href="#" style={{ color: 'var(--color-background)', fontSize: 22, transition: 'color 0.2s' }} onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-secondary)'; }} onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--color-background)'; }} title="Instagram">📸</a>
+                <div className="space-y-4">
+                    <div className="font-semibold text-white">Connect</div>
+                    <div className="space-y-2">
+                        <a href="mailto:gradgrove@sih2025.com" className="text-white/90 hover:text-gg-green hover:underline block transition-all duration-200">Email Us</a>
+                    </div>
+                    <div className="flex gap-3 mt-2">
+                        <a href="#" className="text-white/90 hover:text-gg-green text-2xl transition-colors duration-200 hover:scale-110 transform" title="Twitter">🐦</a>
+                        <a href="#" className="text-white/90 hover:text-gg-green text-2xl transition-colors duration-200 hover:scale-110 transform" title="LinkedIn">💼</a>
+                        <a href="#" className="text-white/90 hover:text-gg-green text-2xl transition-colors duration-200 hover:scale-110 transform" title="Instagram">📸</a>
                     </div>
                 </div>
             </div>
-            <div style={{ marginTop: 32, color: 'var(--color-background)', fontSize: '0.98rem', opacity: 0.7 }}>
+            <div className="mt-8 pt-8 border-t border-white/20 text-center text-white/70 text-base">
                 &copy; 2025 GradGrove Hackathon Prototype. All rights reserved.
             </div>
         </footer>
