@@ -53,8 +53,8 @@ function CarouselFade({ images, interval = 4500, children }: { images: { src: st
       <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", zIndex: 10, color: "#fff", textShadow: "0 2px 16px rgba(0,0,0,0.45)" }}>
         {children}
       </div>
-      <button onClick={() => setActive((active - 1 + images.length) % images.length)} style={{ position: "absolute", left: 24, top: "50%", transform: "translateY(-50%)", background: "rgba(0,0,0,0.18)", border: "none", borderRadius: "50%", width: 44, height: 44, color: "#fff", fontSize: 28, cursor: "pointer", zIndex: 20 }}>&lt;</button>
-      <button onClick={() => setActive((active + 1) % images.length)} style={{ position: "absolute", right: 24, top: "50%", transform: "translateY(-50%)", background: "rgba(0,0,0,0.18)", border: "none", borderRadius: "50%", width: 44, height: 44, color: "#fff", fontSize: 28, cursor: "pointer", zIndex: 20 }}>&gt;</button>
+      <button suppressHydrationWarning onClick={() => setActive((active - 1 + images.length) % images.length)} style={{ position: "absolute", left: 24, top: "50%", transform: "translateY(-50%)", background: "rgba(0,0,0,0.18)", border: "none", borderRadius: "50%", width: 44, height: 44, color: "#fff", fontSize: 28, cursor: "pointer", zIndex: 20 }}>&lt;</button>
+      <button suppressHydrationWarning onClick={() => setActive((active + 1) % images.length)} style={{ position: "absolute", right: 24, top: "50%", transform: "translateY(-50%)", background: "rgba(0,0,0,0.18)", border: "none", borderRadius: "50%", width: 44, height: 44, color: "#fff", fontSize: 28, cursor: "pointer", zIndex: 20 }}>&gt;</button>
       <div style={{ position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 10, zIndex: 20 }}>
         {images.map((_, idx) => (
           <span key={idx} style={{ width: 14, height: 14, borderRadius: "50%", background: active === idx ? "var(--color-primary)" : "#ccc", display: "inline-block", transition: "background 0.2s" }} />
@@ -104,7 +104,7 @@ export default function Page() {
             </AnimatedElement>
             <AnimatedElement animation="scaleIn" delay={800}>
               <a href="/signup" className="inline-block">
-                <button className="bg-gg-primary hover:bg-gg-blue text-white px-10 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-gg-primary/30 hover:-translate-y-1 transition-all duration-300 border-2 border-white/20 backdrop-blur-sm">
+                <button suppressHydrationWarning className="bg-gg-primary hover:bg-gg-blue text-white px-10 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-gg-primary/30 hover:-translate-y-1 transition-all duration-300 border-2 border-white/20 backdrop-blur-sm">
                   Get Started
                 </button>
               </a>
@@ -353,6 +353,7 @@ export default function Page() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <input 
+                        suppressHydrationWarning
                         type="text" 
                         placeholder="Your Name" 
                         className="w-full px-4 py-3 bg-white/70 backdrop-blur-sm border border-gg-primary/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-gg-primary/50 focus:border-transparent transition-all"
@@ -360,6 +361,7 @@ export default function Page() {
                     </div>
                     <div>
                       <input 
+                        suppressHydrationWarning
                         type="email" 
                         placeholder="Your Email" 
                         className="w-full px-4 py-3 bg-white/70 backdrop-blur-sm border border-gg-primary/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-gg-primary/50 focus:border-transparent transition-all"
@@ -375,6 +377,7 @@ export default function Page() {
                   </div>
                   <div className="text-center">
                     <button 
+                      suppressHydrationWarning
                       type="submit" 
                       className="bg-gradient-to-r from-gg-primary to-gg-blue text-white font-bold px-8 py-4 rounded-xl hover:from-gg-blue hover:to-gg-primary transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
