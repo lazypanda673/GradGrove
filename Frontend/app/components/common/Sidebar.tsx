@@ -127,6 +127,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <button
+              suppressHydrationWarning
               onClick={() => setIsExpanded(!isExpanded)}
               style={{
                 padding: '8px',
@@ -247,6 +248,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                   GradGrove Analytics
                 </div>
                 <button
+                  suppressHydrationWarning
                   onClick={() => setIsPinned(!isPinned)}
                   style={{
                     padding: '4px',
@@ -278,6 +280,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
             {menuItems.map((item, index) => (
               <li key={index} style={{ marginBottom: '8px', position: 'relative' }}>
                 <button
+                  suppressHydrationWarning
                   onClick={() => handleNavigation(item.href)}
                   style={{
                     width: '100%',
@@ -422,6 +425,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
           {/* Logout Button */}
           <div style={{ padding: '0 8px', marginTop: 'auto', position: 'relative' }}>
             <button
+              suppressHydrationWarning
               onClick={handleLogout}
               style={{
                 width: '100%',

@@ -70,14 +70,6 @@ const CareerAnalysis: React.FC<CareerAnalysisProps> = ({ mockStudents }) => {
 
   return (
     <div style={{ flex: 1, padding: '24px', background: '#f8fafc', overflowY: 'auto' }}>
-      <div style={{ marginBottom: '24px' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1a202c', marginBottom: '8px' }}>
-          Career Analysis & Guidance
-        </h2>
-        <p style={{ color: '#64748b' }}>
-          Comprehensive career readiness assessment and industry trend analysis
-        </p>
-      </div>
 
       {/* Animated Summary Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '32px' }}>
@@ -205,16 +197,16 @@ const CareerAnalysis: React.FC<CareerAnalysisProps> = ({ mockStudents }) => {
       </div>
 
       {/* Charts Section */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginBottom: '32px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginBottom: '32px' , alignItems: 'stretch'}}>
         
         {/* Career Readiness Radar */}
         <AnimatedElement animation="slideInUp" delay={300}>
-          <div style={{ background: '#fff', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', border: '1px solid #e2e8f0' }}>
-            <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1a202c', marginBottom: '20px' }}>
+          <div style={{ background: '#fff', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', border: '1px solid #e2e8f0' , height: '100%'}}>
+            <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1a202c', marginBottom: '20px' , paddingBottom: '80px'}}>
               Career Readiness Assessment
             </h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <RadarChart data={careerReadinessData}>
+            <ResponsiveContainer width="100%" height={300} >
+              <RadarChart data={careerReadinessData} >
                 <PolarGrid />
                 <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12 }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} />
@@ -235,7 +227,8 @@ const CareerAnalysis: React.FC<CareerAnalysisProps> = ({ mockStudents }) => {
             boxShadow: '0 8px 32px rgba(0,0,0,0.12)', 
             border: '1px solid #e2e8f0',
             transition: 'all 0.3s ease',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            height: '100%'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-4px)';
@@ -246,56 +239,45 @@ const CareerAnalysis: React.FC<CareerAnalysisProps> = ({ mockStudents }) => {
             e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.12)';
           }}
           >
-            <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1a202c', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1a202c', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px'}}>
               📊 Industry Preferences
             </h3>
-            <ResponsiveContainer width="100%" height={350}>
-              <BarChart 
-                data={industryData} 
-                layout="horizontal"
-                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                <XAxis 
-                  type="number" 
-                  tick={{ fontSize: 12, fill: '#64748b' }}
-                  axisLine={{ stroke: '#e2e8f0' }}
-                />
-                <YAxis 
-                  dataKey="name" 
-                  type="category" 
-                  width={100} 
-                  tick={{ fontSize: 12, fill: '#64748b' }} 
-                  axisLine={{ stroke: '#e2e8f0' }}
-                />
-                <Tooltip 
-                  contentStyle={{
-                    background: 'rgba(255, 255, 255, 0.95)',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
-                  }}
-                  formatter={(value: any, name: any) => [
-                    `${value} students`, 
-                    'Interest Level'
-                  ]}
-                  labelFormatter={(label: any) => `Industry: ${label}`}
-                />
-                <Bar 
-                  dataKey="students" 
-                  fill="url(#industryGradient)" 
-                  radius={[0, 6, 6, 0]}
-                  animationDuration={1000}
-                  animationBegin={200}
-                />
-                <defs>
-                  <linearGradient id="industryGradient" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor={COLORS.blue} />
-                    <stop offset="100%" stopColor={COLORS.purple} />
-                  </linearGradient>
-                </defs>
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="pt-6">
+              <ResponsiveContainer width="100%" height={350}>
+                <BarChart 
+                  data={industryData} 
+                  margin={{ top: 0, right: 30, left: 40, bottom: 0 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                  <XAxis 
+                    dataKey="name" 
+                    tick={{ fontSize: 12, fill: '#64748b' }}
+                    axisLine={{ stroke: '#e2e8f0' }}
+                    height={60}
+                  />
+                  <YAxis 
+                    tick={{ fontSize: 12, fill: '#64748b' }} 
+                    axisLine={{ stroke: '#e2e8f0' }}
+                    label={{ value: 'Number of Students', angle: -90, position: 'insideLeft' }}
+                  />
+                  <Tooltip 
+                    contentStyle={{
+                      background: 'rgba(255, 255, 255, 0.95)',
+                      border: '1px solid #e2e8f0',
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                    }}
+                    formatter={(value: any) => [`${value} students`, 'Interest Level']}
+                    labelFormatter={(label: any) => `Industry: ${label}`}
+                  />
+                  <Bar 
+                    dataKey="students" 
+                    fill="#3b82f6"
+                    radius={[4, 4, 0, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
             
             {/* Industry Growth Indicators */}
             <div style={{ marginTop: '16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '12px' }}>
