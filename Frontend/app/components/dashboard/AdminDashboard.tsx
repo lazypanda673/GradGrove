@@ -58,6 +58,15 @@ export default function AdminDashboard() {
   ]);
   const [showNotifications, setShowNotifications] = useState(false);
 
+  // Settings state
+  const [lowRiskThreshold, setLowRiskThreshold] = useState('0.3');
+  const [mediumRiskThreshold, setMediumRiskThreshold] = useState('0.6');
+  const [highRiskThreshold, setHighRiskThreshold] = useState('0.8');
+  const [emailNotifications, setEmailNotifications] = useState(true);
+  const [smsAlerts, setSmsAlerts] = useState(true);
+  const [dailyReports, setDailyReports] = useState(false);
+  const [sessionTimeout, setSessionTimeout] = useState('30 minutes');
+
   const students = useMemo(() => mockStudents, []);
   const counselors = useMemo(() => mockCounselors, []);
 
@@ -106,6 +115,7 @@ export default function AdminDashboard() {
               placeholder="Global search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              suppressHydrationWarning
               className="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -121,6 +131,7 @@ export default function AdminDashboard() {
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
+              suppressHydrationWarning
               className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full"
             >
               <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,6 +194,7 @@ export default function AdminDashboard() {
       { icon: '📈', label: 'Analytics', key: 'analytics' },
       { icon: '✉️', label: 'Communication', key: 'communication' },
       { icon: '📋', label: 'Reports', key: 'reports' },
+      { icon: '📥', label: 'Import Data', key: 'import' },
       { icon: '⚙️', label: 'Settings', key: 'settings' },
     ];
 
@@ -194,6 +206,7 @@ export default function AdminDashboard() {
               <button
                 key={item.key}
                 onClick={() => setCurrentPage(item.key)}
+                suppressHydrationWarning
                 className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
                   currentPage === item.key 
                     ? 'bg-blue-600 text-white' 
@@ -337,13 +350,13 @@ export default function AdminDashboard() {
       <div className="bg-white rounded-lg shadow p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+          <button suppressHydrationWarning className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
             Assign Counselors
           </button>
-          <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
+          <button suppressHydrationWarning className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
             Send High-Risk Alerts
           </button>
-          <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors">
+          <button suppressHydrationWarning className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors">
             Generate Report
           </button>
         </div>
@@ -503,17 +516,763 @@ export default function AdminDashboard() {
     </div>
   );
 
+  // Mapping Page
+  const MappingPage = () => (
+    <div className="space-y-6">
+      {/* Mapping Controls */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Counselor-Student Assignment</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Unassigned Students */}
+          <div className="border rounded-lg p-4">
+            <h4 className="font-medium text-gray-900 mb-3">Unassigned Students (12)</h4>
+            <div className="space-y-2 max-h-60 overflow-y-auto">
+              {mockStudents.slice(0, 3).map(student => (
+                <div key={student.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                  <div>
+                    <p className="font-medium text-sm">{student.name}</p>
+                    <p className="text-xs text-gray-500">{student.roll} • {student.dept}</p>
+                  </div>
+                  <button className="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600">
+                    Assign
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Counselor Workload */}
+          <div className="border rounded-lg p-4">
+            <h4 className="font-medium text-gray-900 mb-3">Counselor Workload</h4>
+            <div className="space-y-3">
+              {mockCounselors.map(counselor => (
+                <div key={counselor.id} className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-sm">{counselor.name}</p>
+                    <p className="text-xs text-gray-500">{counselor.dept}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-medium">{counselor.assigned} students</p>
+                    <div className="w-20 bg-gray-200 rounded-full h-2">
+                      <div 
+                        className={`h-2 rounded-full ${
+                          counselor.workload === 'Normal' ? 'bg-green-500' :
+                          counselor.workload === 'High' ? 'bg-yellow-500' : 'bg-red-500'
+                        }`}
+                        style={{ width: `${Math.min((counselor.assigned / 50) * 100, 100)}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Auto-Assignment */}
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+          <div className="flex items-center justify-between">
+            <div>
+              <h4 className="font-medium text-blue-900">Smart Auto-Assignment</h4>
+              <p className="text-sm text-blue-700">Automatically assign students based on department, risk level, and counselor workload</p>
+            </div>
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+              Run Auto-Assignment
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Assignment Matrix */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Assignment Matrix</h3>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Counselor</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Department</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Assigned</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">High Risk</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Performance</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {mockCounselors.map(counselor => (
+                <tr key={counselor.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {counselor.name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {counselor.dept}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {counselor.assigned}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-red-600">
+                    {counselor.highRisk}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {(counselor.perfScore * 100).toFixed(0)}%
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 py-1 text-xs rounded-full ${
+                      counselor.workload === 'Normal' ? 'bg-green-100 text-green-800' :
+                      counselor.workload === 'High' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {counselor.workload}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Analytics Page
+  const AnalyticsPage = () => (
+    <div className="space-y-6">
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-blue-600">87%</div>
+            <div className="text-sm text-gray-600">Prediction Accuracy</div>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-green-600">34</div>
+            <div className="text-sm text-gray-600">Early Interventions</div>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-orange-600">12%</div>
+            <div className="text-sm text-gray-600">Risk Reduction</div>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-purple-600">92%</div>
+            <div className="text-sm text-gray-600">Student Satisfaction</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Advanced Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Risk Trend Analysis */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Risk Trend Analysis</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart data={riskTrendData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Area type="monotone" dataKey="high" stackId="1" stroke="#ef4444" fill="#ef4444" />
+              <Area type="monotone" dataKey="medium" stackId="1" stroke="#f59e0b" fill="#f59e0b" />
+              <Area type="monotone" dataKey="low" stackId="1" stroke="#10b981" fill="#10b981" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Department Performance */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Department Risk Distribution</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={deptRiskData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="dept" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="low" fill="#10b981" name="Low Risk" />
+              <Bar dataKey="medium" fill="#f59e0b" name="Medium Risk" />
+              <Bar dataKey="high" fill="#ef4444" name="High Risk" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Predictive Analytics */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Predictive Analytics Dashboard</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="border-l-4 border-blue-500 pl-4">
+            <h4 className="font-medium text-gray-900">Risk Prediction Model</h4>
+            <p className="text-sm text-gray-600 mt-1">Machine learning model with 87% accuracy in predicting student dropout risk</p>
+            <div className="mt-2">
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">Active</span>
+            </div>
+          </div>
+          <div className="border-l-4 border-green-500 pl-4">
+            <h4 className="font-medium text-gray-900">Intervention Effectiveness</h4>
+            <p className="text-sm text-gray-600 mt-1">Tracking success rates of different intervention strategies</p>
+            <div className="mt-2">
+              <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">92% Success Rate</span>
+            </div>
+          </div>
+          <div className="border-l-4 border-orange-500 pl-4">
+            <h4 className="font-medium text-gray-900">Early Warning System</h4>
+            <p className="text-sm text-gray-600 mt-1">Automated alerts for students showing risk indicators</p>
+            <div className="mt-2">
+              <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded">12 Active Alerts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Communication Page
+  const CommunicationPage = () => (
+    <div className="space-y-6">
+      {/* Quick Actions */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <button className="bg-blue-500 text-white p-4 rounded-lg hover:bg-blue-600 transition-colors">
+          <div className="text-center">
+            <div className="text-2xl mb-2">📧</div>
+            <div className="font-medium">Send Email</div>
+          </div>
+        </button>
+        <button className="bg-green-500 text-white p-4 rounded-lg hover:bg-green-600 transition-colors">
+          <div className="text-center">
+            <div className="text-2xl mb-2">📱</div>
+            <div className="font-medium">SMS Alert</div>
+          </div>
+        </button>
+        <button className="bg-purple-500 text-white p-4 rounded-lg hover:bg-purple-600 transition-colors">
+          <div className="text-center">
+            <div className="text-2xl mb-2">🔔</div>
+            <div className="font-medium">Push Notification</div>
+          </div>
+        </button>
+        <button className="bg-orange-500 text-white p-4 rounded-lg hover:bg-orange-600 transition-colors">
+          <div className="text-center">
+            <div className="text-2xl mb-2">📢</div>
+            <div className="font-medium">Broadcast</div>
+          </div>
+        </button>
+      </div>
+
+      {/* Message Composer */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Compose Message</h3>
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Recipients</label>
+              <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <option>All Students</option>
+                <option>High Risk Students</option>
+                <option>All Counselors</option>
+                <option>Specific Department</option>
+                <option>Custom Group</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Message Type</label>
+              <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <option>General Notification</option>
+                <option>Risk Alert</option>
+                <option>Appointment Reminder</option>
+                <option>System Update</option>
+                <option>Emergency Alert</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+            <input type="text" placeholder="Enter message subject" className="w-full border border-gray-300 rounded-lg px-3 py-2" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+            <textarea rows={6} placeholder="Type your message here..." className="w-full border border-gray-300 rounded-lg px-3 py-2"></textarea>
+          </div>
+          <div className="flex items-center space-x-4">
+            <button className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Send Now</button>
+            <button className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Schedule Later</button>
+            <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">Save Draft</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Messages */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Messages</h3>
+        <div className="space-y-4">
+          {[
+            { id: 1, subject: 'High Risk Alert - Immediate Attention Required', recipients: 'All Counselors', type: 'Risk Alert', sent: '2025-09-20 10:30 AM', status: 'Delivered' },
+            { id: 2, subject: 'Monthly Progress Review Meeting', recipients: '15 Students', type: 'Appointment', sent: '2025-09-19 02:15 PM', status: 'Delivered' },
+            { id: 3, subject: 'System Maintenance Notification', recipients: 'All Users', type: 'System Update', sent: '2025-09-18 09:00 AM', status: 'Delivered' }
+          ].map(message => (
+            <div key={message.id} className="border border-gray-200 rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-medium text-gray-900">{message.subject}</h4>
+                  <p className="text-sm text-gray-600">{message.recipients} • {message.sent}</p>
+                </div>
+                <div className="text-right">
+                  <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">{message.status}</span>
+                  <p className="text-xs text-gray-500 mt-1">{message.type}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  // Reports Page
+  const ReportsPage = () => (
+    <div className="space-y-6">
+      {/* Report Generation */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Generate New Report</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+            <div className="text-center">
+              <div className="text-3xl mb-3">📊</div>
+              <h4 className="font-medium text-gray-900 mb-2">Student Risk Summary</h4>
+              <p className="text-sm text-gray-600 mb-4">Comprehensive overview of all student risk assessments</p>
+              <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Generate</button>
+            </div>
+          </div>
+          <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+            <div className="text-center">
+              <div className="text-3xl mb-3">👥</div>
+              <h4 className="font-medium text-gray-900 mb-2">Counselor Performance</h4>
+              <p className="text-sm text-gray-600 mb-4">Detailed analysis of counselor effectiveness and workload</p>
+              <button className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">Generate</button>
+            </div>
+          </div>
+          <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+            <div className="text-center">
+              <div className="text-3xl mb-3">📈</div>
+              <h4 className="font-medium text-gray-900 mb-2">Intervention Outcomes</h4>
+              <p className="text-sm text-gray-600 mb-4">Success rates and effectiveness of intervention programs</p>
+              <button className="w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600">Generate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Custom Report Builder */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Custom Report Builder</h3>
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Report Type</label>
+              <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <option>Student Analytics</option>
+                <option>Counselor Performance</option>
+                <option>Risk Assessment</option>
+                <option>Intervention Tracking</option>
+                <option>Departmental Overview</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Time Period</label>
+              <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <option>Last 30 Days</option>
+                <option>Last 3 Months</option>
+                <option>Last 6 Months</option>
+                <option>Last Year</option>
+                <option>Custom Range</option>
+              </select>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Department Filter</label>
+              <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <option>All Departments</option>
+                <option>Computer Science (CSE)</option>
+                <option>Information Technology (IT)</option>
+                <option>Electronics (ECE)</option>
+                <option>Mechanical (MECH)</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Format</label>
+              <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <option>PDF Report</option>
+                <option>Excel Spreadsheet</option>
+                <option>CSV Data</option>
+                <option>PowerPoint Presentation</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex space-x-4">
+            <button className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Generate Report</button>
+            <button className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Schedule Recurring</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Reports */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Reports</h3>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Report Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Generated</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {[
+                { name: 'September Risk Assessment Report', type: 'Student Analytics', date: '2025-09-20', size: '2.4 MB' },
+                { name: 'Q3 Counselor Performance Review', type: 'Performance Report', date: '2025-09-18', size: '1.8 MB' },
+                { name: 'Intervention Success Analysis', type: 'Outcome Report', date: '2025-09-15', size: '3.1 MB' }
+              ].map((report, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{report.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.type}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.date}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.size}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <button className="text-blue-600 hover:text-blue-900 mr-3">Download</button>
+                    <button className="text-red-600 hover:text-red-900">Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Import Data Page
+  const ImportDataPage = () => (
+    <div className="space-y-6">
+      {/* Import Options */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-center">
+            <div className="text-4xl mb-4">📊</div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Student Data</h3>
+            <p className="text-sm text-gray-600 mb-4">Import student records, grades, and personal information</p>
+            <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Import Students</button>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-center">
+            <div className="text-4xl mb-4">👥</div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Counselor Data</h3>
+            <p className="text-sm text-gray-600 mb-4">Import counselor profiles and assignment information</p>
+            <button className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">Import Counselors</button>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-center">
+            <div className="text-4xl mb-4">📈</div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Historical Data</h3>
+            <p className="text-sm text-gray-600 mb-4">Import past assessment and intervention records</p>
+            <button className="w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600">Import History</button>
+          </div>
+        </div>
+      </div>
+
+      {/* File Upload Interface */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Upload Data File</h3>
+        <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+          <div className="text-4xl mb-4">📁</div>
+          <h4 className="text-lg font-medium text-gray-900 mb-2">Drag and drop your file here</h4>
+          <p className="text-gray-600 mb-4">Supported formats: CSV, Excel (.xlsx), JSON</p>
+          <button className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Choose File</button>
+        </div>
+        
+        <div className="mt-6 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Data Type</label>
+            <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
+              <option>Student Records</option>
+              <option>Counselor Profiles</option>
+              <option>Assessment Data</option>
+              <option>Intervention Records</option>
+              <option>Attendance Data</option>
+            </select>
+          </div>
+          <div className="flex items-center">
+            <input type="checkbox" className="mr-2" />
+            <label className="text-sm text-gray-700">Validate data before import</label>
+          </div>
+          <div className="flex items-center">
+            <input type="checkbox" className="mr-2" />
+            <label className="text-sm text-gray-700">Update existing records</label>
+          </div>
+        </div>
+      </div>
+
+      {/* Data Mapping */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Column Mapping</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-medium text-gray-900 mb-3">File Columns</h4>
+            <div className="space-y-2">
+              {['student_id', 'full_name', 'email_address', 'department_code', 'year_level'].map(col => (
+                <div key={col} className="p-2 bg-gray-50 rounded text-sm font-mono">{col}</div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h4 className="font-medium text-gray-900 mb-3">System Fields</h4>
+            <div className="space-y-2">
+              {['Student ID', 'Name', 'Email', 'Department', 'Year'].map(field => (
+                <select key={field} className="w-full border border-gray-300 rounded px-2 py-1 text-sm">
+                  <option>Map to {field}</option>
+                  <option>student_id</option>
+                  <option>full_name</option>
+                  <option>email_address</option>
+                  <option>department_code</option>
+                  <option>year_level</option>
+                </select>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="mt-6 flex space-x-4">
+          <button className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Preview Import</button>
+          <button className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Start Import</button>
+        </div>
+      </div>
+
+      {/* Import History */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Import History</h3>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">File Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Records</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {[
+                { file: 'students_fall_2025.csv', type: 'Student Data', records: 1247, date: '2025-09-20', status: 'Success' },
+                { file: 'counselor_assignments.xlsx', type: 'Counselor Data', records: 15, date: '2025-09-18', status: 'Success' },
+                { file: 'assessment_history.json', type: 'Assessment Data', records: 892, date: '2025-09-15', status: 'Partial' }
+              ].map((import_, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{import_.file}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{import_.type}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{import_.records}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{import_.date}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 py-1 text-xs rounded-full ${
+                      import_.status === 'Success' ? 'bg-green-100 text-green-800' :
+                      import_.status === 'Partial' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {import_.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Settings Page
+  const SettingsPage = () => (
+    <div className="space-y-6">
+      {/* System Settings */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">System Configuration</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Risk Threshold Settings</label>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Low Risk Threshold</span>
+                <input 
+                  type="number" 
+                  value={lowRiskThreshold} 
+                  onChange={(e) => setLowRiskThreshold(e.target.value)}
+                  className="w-20 border border-gray-300 rounded px-2 py-1 text-sm" 
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Medium Risk Threshold</span>
+                <input 
+                  type="number" 
+                  value={mediumRiskThreshold} 
+                  onChange={(e) => setMediumRiskThreshold(e.target.value)}
+                  className="w-20 border border-gray-300 rounded px-2 py-1 text-sm" 
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">High Risk Threshold</span>
+                <input 
+                  type="number" 
+                  value={highRiskThreshold} 
+                  onChange={(e) => setHighRiskThreshold(e.target.value)}
+                  className="w-20 border border-gray-300 rounded px-2 py-1 text-sm" 
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Notification Settings</label>
+            <div className="space-y-3">
+              <div className="flex items-center">
+                <input 
+                  type="checkbox" 
+                  checked={emailNotifications} 
+                  onChange={(e) => setEmailNotifications(e.target.checked)}
+                  className="mr-2" 
+                />
+                <span className="text-sm text-gray-700">Email notifications for high-risk students</span>
+              </div>
+              <div className="flex items-center">
+                <input 
+                  type="checkbox" 
+                  checked={smsAlerts} 
+                  onChange={(e) => setSmsAlerts(e.target.checked)}
+                  className="mr-2" 
+                />
+                <span className="text-sm text-gray-700">SMS alerts for critical cases</span>
+              </div>
+              <div className="flex items-center">
+                <input 
+                  type="checkbox" 
+                  checked={dailyReports} 
+                  onChange={(e) => setDailyReports(e.target.checked)}
+                  className="mr-2" 
+                />
+                <span className="text-sm text-gray-700">Daily summary reports</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* User Management */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">User Management</h3>
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex space-x-4">
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Add User</button>
+            <button className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Bulk Import</button>
+          </div>
+          <div className="flex space-x-2">
+            <button className="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded">All</button>
+            <button className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded">Admins</button>
+            <button className="px-3 py-1 text-sm bg-green-100 text-green-700 rounded">Counselors</button>
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Last Active</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {[
+                { name: 'Admin User', email: 'admin@college.edu', role: 'Administrator', lastActive: '2025-09-20', status: 'Active' },
+                { name: 'Dr. Rao', email: 'rao@college.edu', role: 'Counselor', lastActive: '2025-09-20', status: 'Active' },
+                { name: 'Ms. Kapoor', email: 'kapoor@college.edu', role: 'Counselor', lastActive: '2025-09-19', status: 'Active' }
+              ].map((user, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.role}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.lastActive}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">{user.status}</span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <button className="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
+                    <button className="text-red-600 hover:text-red-900">Deactivate</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Security Settings */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Security & Privacy</h3>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+            <div>
+              <h4 className="font-medium text-gray-900">Two-Factor Authentication</h4>
+              <p className="text-sm text-gray-600">Add an extra layer of security to user accounts</p>
+            </div>
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Enable</button>
+          </div>
+          <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+            <div>
+              <h4 className="font-medium text-gray-900">Session Timeout</h4>
+              <p className="text-sm text-gray-600">Automatically log out inactive users</p>
+            </div>
+            <select 
+              value={sessionTimeout}
+              onChange={(e) => setSessionTimeout(e.target.value)}
+              className="border border-gray-300 rounded px-3 py-2"
+            >
+              <option>30 minutes</option>
+              <option>1 hour</option>
+              <option>2 hours</option>
+              <option>4 hours</option>
+            </select>
+          </div>
+          <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+            <div>
+              <h4 className="font-medium text-gray-900">Data Encryption</h4>
+              <p className="text-sm text-gray-600">Encrypt sensitive student and counselor data</p>
+            </div>
+            <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Enabled</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   // Render current page content
   const renderCurrentPage = () => {
     switch (currentPage) {
       case 'overview': return <OverviewPage />;
       case 'students': return <StudentsPage />;
       case 'counselors': return <CounselorsPage />;
-      case 'mapping': return <div className="bg-white rounded-lg shadow p-6"><h3 className="text-lg font-semibold text-gray-900 mb-4">Counselor-Student Mapping</h3><p className="text-gray-600">Interactive mapping interface coming soon...</p></div>;
-      case 'analytics': return <div className="bg-white rounded-lg shadow p-6"><h3 className="text-lg font-semibold text-gray-900 mb-4">Advanced Analytics</h3><p className="text-gray-600">Detailed analytics dashboard coming soon...</p></div>;
-      case 'communication': return <div className="bg-white rounded-lg shadow p-6"><h3 className="text-lg font-semibold text-gray-900 mb-4">Communication Tools</h3><p className="text-gray-600">Email and messaging interface coming soon...</p></div>;
-      case 'reports': return <div className="bg-white rounded-lg shadow p-6"><h3 className="text-lg font-semibold text-gray-900 mb-4">Reports & Downloads</h3><p className="text-gray-600">Report generation and export tools coming soon...</p></div>;
-      case 'settings': return <div className="bg-white rounded-lg shadow p-6"><h3 className="text-lg font-semibold text-gray-900 mb-4">Admin Settings</h3><p className="text-gray-600">System configuration and user management coming soon...</p></div>;
+      case 'mapping': return <MappingPage />;
+      case 'analytics': return <AnalyticsPage />;
+      case 'communication': return <CommunicationPage />;
+      case 'reports': return <ReportsPage />;
+      case 'import': return <ImportDataPage />;
+      case 'settings': return <SettingsPage />;
       default: return <OverviewPage />;
     }
   };
@@ -542,6 +1301,7 @@ export default function AdminDashboard() {
                 {currentPage === 'analytics' && 'Advanced analytics and insights for risk management'}
                 {currentPage === 'communication' && 'Send alerts, messages, and notifications to students and counselors'}
                 {currentPage === 'reports' && 'Generate, schedule, and export comprehensive reports'}
+                {currentPage === 'import' && 'Import and manage student data from various sources'}
                 {currentPage === 'settings' && 'System configuration and administrative settings'}
               </p>
             </div>
