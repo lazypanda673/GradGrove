@@ -327,6 +327,8 @@ export function CounsellorDashboard() {
             <AnimatedElement animation="slideInLeft" delay={100}>
               <div style={{
                 width: '350px',
+                height: '980px',
+                marginTop: '25px',
                 minWidth: '350px',
                 background: '#fff',
                 borderRadius: '16px',
@@ -334,7 +336,9 @@ export function CounsellorDashboard() {
                 border: '1px solid #e2e8f0',
                 display: 'flex',
                 flexDirection: 'column',
-                maxHeight: 'calc(100vh - 180px)',
+                //height: 'calc(100vh - 140px)',
+                position: 'sticky',
+                top: '20px',
                 overflow: 'hidden'
               }}>
 
