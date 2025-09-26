@@ -81,14 +81,6 @@ const SessionsManagement: React.FC<SessionsManagementProps> = ({ mockStudents })
 
   return (
     <div style={{ flex: 1, padding: '24px', background: '#f8fafc', overflowY: 'auto' }}>
-      <div style={{ marginBottom: '24px' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1a202c', marginBottom: '8px' }}>
-          Counseling Sessions & Reports
-        </h2>
-        <p style={{ color: '#64748b' }}>
-          Manage counseling sessions and generate comprehensive reports
-        </p>
-      </div>
 
       {/* Tab Navigation */}
       <div style={{ 

@@ -1,32 +1,12 @@
 "use client";
 import React, { useState } from "react";
-// Next.js uses <Link> from 'next/link', not 'react-router-dom'
 import Link from "next/link";
 
 export function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
-  const [hover, setHover] = useState(false);
   return (
     <Link
       href={to}
-      style={{
-        margin: 8,
-        color: hover ? '#fff' : 'rgba(255,255,255,0.9)',
-        background: hover ? 'rgba(255,255,255,0.15)' : 'transparent',
-        fontWeight: hover ? 600 : 500,
-        fontSize: '1rem',
-        textDecoration: 'none',
-        borderRadius: 10,
-        padding: '10px 20px',
-        boxShadow: hover ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        letterSpacing: hover ? '0.3px' : 'normal',
-        cursor: 'pointer',
-        border: hover ? '1px solid rgba(255,255,255,0.2)' : '1px solid transparent',
-        transform: hover ? 'translateY(-2px)' : 'translateY(0)',
-        backdropFilter: hover ? 'blur(10px)' : 'none'
-      }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      className="mx-2 text-white/90 hover:text-white hover:bg-white/15 font-medium hover:font-semibold text-base no-underline rounded-xl px-5 py-2.5 hover:shadow-lg transition-all duration-300 hover:tracking-wide cursor-pointer border border-transparent hover:border-white/20 hover:-translate-y-0.5 hover:backdrop-blur-lg"
     >
       {children}
     </Link>
@@ -34,35 +14,11 @@ export function NavLink({ to, children }: { to: string; children: React.ReactNod
 }
 
 export function DropdownItem({ to, children }: { to: string; children: React.ReactNode }) {
-  const [hover, setHover] = useState(false);
   return (
-    <li
-      style={{
-        padding: '12px 16px',
-        cursor: 'pointer',
-        background: hover ? 'linear-gradient(135deg, var(--color-primary), #4f46e5)' : 'transparent',
-        color: hover ? '#fff' : '#374151',
-        fontWeight: hover ? 600 : 500,
-        borderRadius: 8,
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        margin: '4px 0',
-        transform: hover ? 'translateX(4px)' : 'translateX(0)',
-        boxShadow: hover ? '0 4px 12px rgba(99, 102, 241, 0.3)' : 'none'
-      }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
+    <li className="py-3 px-4 cursor-pointer hover:bg-gradient-to-r hover:from-gg-primary hover:to-gg-blue text-gg-foreground hover:text-white font-medium hover:font-semibold rounded-lg transition-all duration-300 my-1 hover:translate-x-1 hover:shadow-lg">
       <Link 
         href={to}
-        style={{ 
-          color: hover ? '#fff' : '#374151', 
-          textDecoration: 'none', 
-          fontWeight: 'inherit',
-          fontSize: '14px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px'
-        }}
+        className="text-inherit no-underline text-sm flex items-center gap-2"
       >
         {children}
       </Link>
@@ -73,72 +29,16 @@ export function DropdownItem({ to, children }: { to: string; children: React.Rea
 export default function Navbar({ role }: { role?: string }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
-    <>
-      <style jsx>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-        @keyframes slideInDown {
-          0% { 
-            opacity: 0; 
-            transform: translateY(-10px); 
-          }
-          100% { 
-            opacity: 1; 
-            transform: translateY(0); 
-          }
-        }
-      `}</style>
-      <nav style={{ 
-      padding: "16px 32px", 
-      background: "linear-gradient(135deg, var(--color-primary), #4f46e5)", 
-      color: "var(--color-background)", 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'space-between', 
-      boxShadow: '0 4px 20px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08)', 
-      position: 'sticky', 
-      top: 0, 
-      zIndex: 100,
-      backdropFilter: 'blur(10px)',
-      borderBottom: '1px solid rgba(255,255,255,0.1)'
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <span 
-          style={{ 
-            background: 'rgba(255,255,255,0.15)', 
-            borderRadius: '50%', 
-            padding: 8, 
-            boxShadow: '0 4px 12px rgba(0,0,0,0.15)', 
-            display: 'inline-block',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            cursor: 'pointer'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.1) rotate(5deg)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.2)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-          }}
-        >
-          <img src="/Brand_logo.png" alt="GradGrove Logo" style={{ width: 36, height: 36, display: 'block' }} />
+    <nav className="px-8 py-4 bg-gradient-to-r from-gg-primary to-gg-blue text-white flex items-center justify-between shadow-xl sticky top-0 z-50 backdrop-blur-lg border-b border-white/10">
+      <div className="flex items-center gap-4">
+        <span className="bg-white/15 rounded-full p-2 shadow-lg inline-block transition-all duration-300 cursor-pointer hover:scale-110 hover:rotate-6 hover:shadow-xl">
+          <img src="/Brand_logo.png" alt="GradGrove Logo" className="w-9 h-9 block" />
         </span>
-        <span style={{ 
-          fontWeight: 700, 
-          fontSize: '1.4rem', 
-          color: 'var(--color-background)',
-          background: 'linear-gradient(135deg, #fff, #e2e8f0)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          letterSpacing: '0.5px'
-        }}>
+        <span className="font-bold text-2xl bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent tracking-wide">
           GradGrove
         </span>
       </div>
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div className="flex gap-2">
         {role === "admin" && <NavLink to="/admin">Admin Dashboard</NavLink>}
         {role === "mentor" && <NavLink to="/mentor">Mentor Dashboard</NavLink>}
         {role === "student" && <NavLink to="/student">Student Dashboard</NavLink>}
@@ -153,73 +53,25 @@ export default function Navbar({ role }: { role?: string }) {
           </>
         )}
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 18, position: 'relative' }}>
+      <div className="flex items-center gap-4 relative">
         {/* Notification icon */}
         {role && (
           <span 
-            style={{ 
-              cursor: 'pointer', 
-              fontSize: 22, 
-              padding: '8px', 
-              borderRadius: '50%', 
-              background: 'rgba(255,255,255,0.1)', 
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              position: 'relative'
-            }} 
+            className="cursor-pointer text-xl p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-110 relative" 
             title="Notifications"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.2)';
-              e.currentTarget.style.transform = 'scale(1.1)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
           >
             🔔
             {/* Notification badge */}
-            <span style={{
-              position: 'absolute',
-              top: '4px',
-              right: '4px',
-              background: '#ef4444',
-              borderRadius: '50%',
-              width: '8px',
-              height: '8px',
-              fontSize: '10px',
-              animation: 'pulse 2s infinite'
-            }}></span>
+            <span className="absolute top-1 right-1 bg-red-500 rounded-full w-2 h-2 text-xs animate-pulse"></span>
           </span>
         )}
         {/* Send Alert button for counsellor */}
         {role === "counsellor" && (
           <button
-            style={{ 
-              background: 'linear-gradient(135deg, var(--color-secondary), #06b6d4)', 
-              color: 'var(--color-background)', 
-              fontWeight: 600, 
-              borderRadius: 10, 
-              padding: '10px 20px', 
-              border: 'none', 
-              cursor: 'pointer', 
-              boxShadow: '0 4px 12px rgba(6, 182, 212, 0.3)', 
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              fontSize: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}
-            onMouseEnter={e => {
-              (e.target as HTMLButtonElement).style.transform = 'translateY(-2px) scale(1.02)';
-              (e.target as HTMLButtonElement).style.boxShadow = '0 8px 20px rgba(6, 182, 212, 0.4)';
-            }}
-            onMouseLeave={e => {
-              (e.target as HTMLButtonElement).style.transform = 'translateY(0) scale(1)';
-              (e.target as HTMLButtonElement).style.boxShadow = '0 4px 12px rgba(6, 182, 212, 0.3)';
-            }}
+            className="bg-gradient-to-r from-gg-green to-gg-blue text-white font-semibold rounded-xl px-5 py-2.5 border-none cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 text-sm flex items-center gap-2 hover:-translate-y-0.5 hover:scale-105"
             onClick={() => alert('Alert sent to students!')}
           >
-            <span style={{ fontSize: '16px' }}>📢</span>
+            <span className="text-base">📢</span>
             Send Alert
           </button>
         )}
@@ -227,47 +79,15 @@ export default function Navbar({ role }: { role?: string }) {
         {role && (
           <>
             <span 
-              style={{ 
-                cursor: 'pointer', 
-                borderRadius: '50%', 
-                overflow: 'hidden', 
-                width: 40, 
-                height: 40, 
-                display: 'inline-block', 
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1))', 
-                border: '2px solid rgba(255,255,255,0.3)',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-              }} 
+              className="cursor-pointer rounded-full overflow-hidden w-10 h-10 inline-block bg-gradient-to-br from-white/20 to-white/10 border-2 border-white/30 transition-all duration-300 shadow-lg hover:scale-110 hover:shadow-xl"
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.1)';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-              }}
             >
-              <img src="/Brand_logo.png" alt="Profile" style={{ width: 36, height: 36, objectFit: 'cover', margin: '2px' }} />
+              <img src="/Brand_logo.png" alt="Profile" className="w-9 h-9 object-cover m-0.5" />
             </span>
             {/* Dropdown menu */}
             {dropdownOpen && (
-              <div style={{ 
-                position: 'absolute', 
-                top: 56, 
-                right: 0, 
-                background: 'rgba(255,255,255,0.95)', 
-                backdropFilter: 'blur(20px)',
-                color: '#222', 
-                borderRadius: 12, 
-                boxShadow: '0 8px 32px rgba(0,0,0,0.15)', 
-                minWidth: 200, 
-                zIndex: 100,
-                border: '1px solid rgba(255,255,255,0.3)',
-                animation: 'slideInDown 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-              }}>
-                <ul style={{ listStyle: 'none', margin: 0, padding: '16px 8px' }}>
+              <div className="absolute top-14 right-0 bg-white/95 backdrop-blur-xl text-gray-800 rounded-xl shadow-2xl min-w-[200px] z-50 border border-white/30 animate-pulse">
+                <ul className="list-none m-0 p-4">
                   <DropdownItem to="/profile">👤 Profile Page</DropdownItem>
                   <DropdownItem to="/settings">⚙️ Settings</DropdownItem>
                   <DropdownItem to="/help">❓ Help</DropdownItem>
@@ -280,6 +100,5 @@ export default function Navbar({ role }: { role?: string }) {
         )}
       </div>
     </nav>
-    </>
   );
 }

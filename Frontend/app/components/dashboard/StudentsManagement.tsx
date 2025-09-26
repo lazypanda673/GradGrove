@@ -51,16 +51,7 @@ const StudentsManagement: React.FC<StudentsManagementProps> = ({ mockStudents })
   const departments = [...new Set(mockStudents.map(s => s.dept))];
 
   return (
-    <div style={{ flex: 1, padding: '24px', background: '#f8fafc', overflowY: 'auto' }}>
-      <div style={{ marginBottom: '24px' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1a202c', marginBottom: '8px' }}>
-          Student Records & Analytics
-        </h2>
-        <p style={{ color: '#64748b' }}>
-          Comprehensive view of all students with detailed analytics and management tools
-        </p>
-      </div>
-
+    <div style={{ padding: '24px', background: '#f8fafc', minHeight: 'fit-content' }}>
       {/* Advanced Search and Filters */}
       <div style={{ 
         background: 'linear-gradient(135deg, #fff 0%, #f8fafc 100%)', 
@@ -238,7 +229,7 @@ const StudentsManagement: React.FC<StudentsManagementProps> = ({ mockStudents })
       </div>
 
       {/* Students Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '20px' }}>
         {filteredStudents.map((student, index) => (
           <AnimatedElement key={student.id} animation="scaleIn" delay={index * 50}>
             <div style={{

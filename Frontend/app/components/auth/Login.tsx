@@ -235,7 +235,7 @@ export default function Login({ setRole }: { setRole?: (role: string) => void })
           padding: '40px',
           width: '100%',
           maxWidth: '620px',
-          height: '420px',
+          height: '520px',
           border: '1px solid rgba(229, 231, 235, 0.2)',
           overflow: 'visible',
           opacity: 0,
@@ -326,7 +326,7 @@ export default function Login({ setRole }: { setRole?: (role: string) => void })
           {/* Content Container with smooth transitions */}
           <div style={{ 
             position: 'relative', 
-            height: '240px',
+            height: '300px',
             overflow: 'hidden'
           }}>
             {/* Step 1: Role Selection */}

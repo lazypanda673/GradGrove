@@ -8,6 +8,7 @@ interface SidebarProps {
   role?: string;
   currentPage?: string;
   onPageChange?: (page: string) => void;
+  customMenuItems?: { icon: string; label: string; href: string; }[];
 }
 
 interface MenuItem {
@@ -17,22 +18,23 @@ interface MenuItem {
   isActive: boolean;
 }
 
-export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard', onPageChange }: SidebarProps) {
+export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard', onPageChange, customMenuItems }: SidebarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isPinned, setIsPinned] = useState(false);
   const router = useRouter();
 
-  // Menu items based on role
+  // Menu items based on role or custom items
   const getMenuItems = (): MenuItem[] => {
-    const baseItems: MenuItem[] = [
-      { icon: '📊', label: 'Dashboard', href: 'dashboard', isActive: false },
-      { icon: '👥', label: 'Students', href: 'students', isActive: false },
-      { icon: '📈', label: 'Analytics', href: 'analytics', isActive: false },
-      { icon: '💬', label: 'Sessions', href: 'sessions', isActive: false },
-      { icon: '🎯', label: 'Interventions', href: 'interventions', isActive: false },
-      { icon: '📅', label: 'Schedule', href: 'schedule', isActive: false },
-      { icon: '⚙️', label: 'Settings', href: 'settings', isActive: false },
-      { icon: '🔔', label: 'Notifications', href: 'notifications', isActive: false },
+    // Use custom menu items if provided, otherwise use default counselor items
+    const baseItems = customMenuItems || [
+      { icon: '🏠', label: 'Dashboard', href: 'dashboard' },
+      { icon: '👥', label: 'Students', href: 'students' },
+      { icon: '📈', label: 'Analytics', href: 'analytics' },
+      { icon: '💬', label: 'Sessions', href: 'sessions' },
+      { icon: '🎯', label: 'Interventions', href: 'interventions' },
+      { icon: '📅', label: 'Schedule', href: 'schedule' },
+      { icon: '⚙️', label: 'Settings', href: 'settings' },
+      { icon: '🔔', label: 'Notifications', href: 'notifications' },
     ];
 
     return baseItems.map(item => ({
@@ -125,6 +127,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <button
+              suppressHydrationWarning
               onClick={() => setIsExpanded(!isExpanded)}
               style={{
                 padding: '8px',
@@ -132,13 +135,31 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                transition: 'background-color 0.2s ease'
+                transition: 'background-color 0.2s ease',
+                position: 'relative',
+                overflow: 'visible'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#1e40af';
+                // Show tooltip when sidebar is collapsed
+                if (!isExpanded) {
+                  const tooltip = e.currentTarget.querySelector('.menu-tooltip') as HTMLElement;
+                  if (tooltip) {
+                    tooltip.style.opacity = '1';
+                    tooltip.style.visibility = 'visible';
+                    tooltip.style.transform = 'translateY(-50%) translateX(10px) scale(1)';
+                  }
+                }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'transparent';
+                // Hide tooltip
+                const tooltip = e.currentTarget.querySelector('.menu-tooltip') as HTMLElement;
+                if (tooltip) {
+                  tooltip.style.opacity = '0';
+                  tooltip.style.visibility = 'hidden';
+                  tooltip.style.transform = 'translateY(-50%) translateX(0px) scale(0.9)';
+                }
               }}
             >
               <div style={{
@@ -171,6 +192,47 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                   transition: 'all 0.3s ease'
                 }} />
               </div>
+              
+              {/* Tooltip for menu toggle */}
+              {!isExpanded && (
+                <div 
+                  className="menu-tooltip"
+                  style={{
+                    position: 'absolute',
+                    left: '100%',
+                    top: '50%',
+                    transform: 'translateY(-50%) translateX(0px) scale(0.9)',
+                    background: '#1f2937',
+                    color: 'white',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    whiteSpace: 'nowrap',
+                    opacity: 0,
+                    visibility: 'hidden',
+                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    zIndex: 1000,
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    pointerEvents: 'none'
+                  }}
+                >
+                  Expand Menu
+                  {/* Arrow pointing to the left */}
+                  <div style={{
+                    position: 'absolute',
+                    left: '-4px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: 0,
+                    height: 0,
+                    borderTop: '4px solid transparent',
+                    borderBottom: '4px solid transparent',
+                    borderRight: '4px solid #1f2937'
+                  }} />
+                </div>
+              )}
             </button>
             
             {isExpanded && (
@@ -186,6 +248,7 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                   GradGrove Analytics
                 </div>
                 <button
+                  suppressHydrationWarning
                   onClick={() => setIsPinned(!isPinned)}
                   style={{
                     padding: '4px',
@@ -215,8 +278,9 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
         <nav style={{ flex: 1, paddingTop: '32px', paddingBottom: '32px', display: 'flex', flexDirection: 'column' }}>
           <ul style={{ listStyle: 'none', margin: 0, padding: '0 8px', flex: 1 }}>
             {menuItems.map((item, index) => (
-              <li key={index} style={{ marginBottom: '8px' }}>
+              <li key={index} style={{ marginBottom: '8px', position: 'relative' }}>
                 <button
+                  suppressHydrationWarning
                   onClick={() => handleNavigation(item.href)}
                   style={{
                     width: '100%',
@@ -235,16 +299,32 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                     color: item.isActive ? '#fbbf24' : 'white',
                     fontSize: '14px',
                     textAlign: 'left',
-                    overflow: 'hidden'
+                    overflow: 'visible'
                   }}
                   onMouseEnter={(e) => {
                     if (!item.isActive) {
                       e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
                     }
+                    // Show tooltip when sidebar is collapsed
+                    if (!isExpanded) {
+                      const tooltip = e.currentTarget.querySelector('.tooltip') as HTMLElement;
+                      if (tooltip) {
+                        tooltip.style.opacity = '1';
+                        tooltip.style.visibility = 'visible';
+                        tooltip.style.transform = 'translateY(-50%) translateX(10px) scale(1)';
+                      }
+                    }
                   }}
                   onMouseLeave={(e) => {
                     if (!item.isActive) {
                       e.currentTarget.style.backgroundColor = 'transparent';
+                    }
+                    // Hide tooltip
+                    const tooltip = e.currentTarget.querySelector('.tooltip') as HTMLElement;
+                    if (tooltip) {
+                      tooltip.style.opacity = '0';
+                      tooltip.style.visibility = 'hidden';
+                      tooltip.style.transform = 'translateY(-50%) translateX(0px) scale(0.9)';
                     }
                   }}
                 >
@@ -271,6 +351,48 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                   }}>
                     {item.icon}
                   </span>
+                  
+                  {/* Tooltip for collapsed sidebar */}
+                  {!isExpanded && (
+                    <div 
+                      className="tooltip"
+                      style={{
+                        position: 'absolute',
+                        left: '100%',
+                        top: '50%',
+                        transform: 'translateY(-50%) translateX(0px) scale(0.9)',
+                        background: '#1f2937',
+                        color: 'white',
+                        padding: '8px 12px',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        whiteSpace: 'nowrap',
+                        opacity: 0,
+                        visibility: 'hidden',
+                        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                        zIndex: 1000,
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        pointerEvents: 'none'
+                      }}
+                    >
+                      {item.label}
+                      {/* Arrow pointing to the left */}
+                      <div style={{
+                        position: 'absolute',
+                        left: '-4px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        width: 0,
+                        height: 0,
+                        borderTop: '4px solid transparent',
+                        borderBottom: '4px solid transparent',
+                        borderRight: '4px solid #1f2937'
+                      }} />
+                    </div>
+                  )}
+                  
                   {isExpanded && (
                     <span style={{
                       fontWeight: item.isActive ? '600' : '500',
@@ -301,8 +423,9 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
           </ul>
           
           {/* Logout Button */}
-          <div style={{ padding: '0 8px', marginTop: 'auto' }}>
+          <div style={{ padding: '0 8px', marginTop: 'auto', position: 'relative' }}>
             <button
+              suppressHydrationWarning
               onClick={handleLogout}
               style={{
                 width: '100%',
@@ -317,15 +440,33 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
                 background: 'transparent',
                 color: '#fbbf24',
                 fontSize: '14px',
-                fontWeight: '500'
+                fontWeight: '500',
+                position: 'relative',
+                overflow: 'visible'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
                 e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                // Show tooltip when sidebar is collapsed
+                if (!isExpanded) {
+                  const tooltip = e.currentTarget.querySelector('.logout-tooltip') as HTMLElement;
+                  if (tooltip) {
+                    tooltip.style.opacity = '1';
+                    tooltip.style.visibility = 'visible';
+                    tooltip.style.transform = 'translateY(-50%) translateX(10px) scale(1)';
+                  }
+                }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'transparent';
                 e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                // Hide tooltip
+                const tooltip = e.currentTarget.querySelector('.logout-tooltip') as HTMLElement;
+                if (tooltip) {
+                  tooltip.style.opacity = '0';
+                  tooltip.style.visibility = 'hidden';
+                  tooltip.style.transform = 'translateY(-50%) translateX(0px) scale(0.9)';
+                }
               }}
             >
               <span style={{
@@ -337,6 +478,48 @@ export default function Sidebar({ role = 'counsellor', currentPage = 'dashboard'
               }}>
                 🚪
               </span>
+              
+              {/* Tooltip for logout button */}
+              {!isExpanded && (
+                <div 
+                  className="logout-tooltip"
+                  style={{
+                    position: 'absolute',
+                    left: '100%',
+                    top: '50%',
+                    transform: 'translateY(-50%) translateX(0px) scale(0.9)',
+                    background: '#1f2937',
+                    color: 'white',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    whiteSpace: 'nowrap',
+                    opacity: 0,
+                    visibility: 'hidden',
+                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    zIndex: 1000,
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    pointerEvents: 'none'
+                  }}
+                >
+                  Logout
+                  {/* Arrow pointing to the left */}
+                  <div style={{
+                    position: 'absolute',
+                    left: '-4px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: 0,
+                    height: 0,
+                    borderTop: '4px solid transparent',
+                    borderBottom: '4px solid transparent',
+                    borderRight: '4px solid #1f2937'
+                  }} />
+                </div>
+              )}
+              
               {isExpanded && (
                 <span>Logout</span>
               )}

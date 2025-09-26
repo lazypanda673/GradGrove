@@ -90,17 +90,6 @@ export default function Settings({ mockStudents }: SettingsProps) {
 
   return (
     <div style={{ padding: '0', maxWidth: '100%' }}>
-      {/* Header */}
-      <AnimatedElement animation="fadeIn" delay={100}>
-        <div style={{ marginBottom: '24px' }}>
-          <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1a202c', marginBottom: '8px' }}>
-            Settings & Preferences
-          </h2>
-          <p style={{ color: '#64748b' }}>
-            Manage your account settings, preferences, and system configuration
-          </p>
-        </div>
-      </AnimatedElement>
 
       <div style={{ display: 'flex', gap: '24px' }}>
         {/* Sidebar Navigation */}
