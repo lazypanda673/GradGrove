@@ -67,8 +67,72 @@ export default function AdminDashboard() {
   const [dailyReports, setDailyReports] = useState(false);
   const [sessionTimeout, setSessionTimeout] = useState('30 minutes');
 
+  // File upload state
+  const [uploadingFiles, setUploadingFiles] = useState<{[key: string]: boolean}>({});
+  const [uploadedFiles, setUploadedFiles] = useState<{[key: string]: string}>({});
+
   const students = useMemo(() => mockStudents, []);
   const counselors = useMemo(() => mockCounselors, []);
+
+  // File upload handlers
+  const handleFileUpload = (fileType: string, event?: React.ChangeEvent<HTMLInputElement>) => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = fileType === 'general' ? '.csv,.xlsx,.json' : '.xlsx';
+    
+    input.onchange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      const file = target.files?.[0];
+      if (file) {
+        setUploadingFiles(prev => ({ ...prev, [fileType]: true }));
+        
+        // Simulate file upload process
+        setTimeout(() => {
+          setUploadingFiles(prev => ({ ...prev, [fileType]: false }));
+          setUploadedFiles(prev => ({ ...prev, [fileType]: file.name }));
+          alert(`Successfully uploaded ${file.name} for ${fileType} data!`);
+        }, 2000);
+      }
+    };
+    
+    input.click();
+  };
+
+  // Import data handlers (for server-side data import)
+  const handleDataImport = (dataType: string) => {
+    setUploadingFiles(prev => ({ ...prev, [dataType]: true }));
+    
+    // Simulate server data import process
+    setTimeout(() => {
+      setUploadingFiles(prev => ({ ...prev, [dataType]: false }));
+      const messages = {
+        students: 'Student data has been successfully imported from the system database. 1,247 student records processed.',
+        counselors: 'Counselor data has been successfully imported from the system database. 15 counselor profiles processed.',
+        historical: 'Historical assessment and intervention data has been successfully imported from the system database. 892 records processed.'
+      };
+      alert(`Import Complete!\n\n${messages[dataType as keyof typeof messages]}\n\nNote: This is a demo. In the future, this will connect to the actual system database to import live data.`);
+    }, 3000);
+  };
+
+  const handleDragAndDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+      const file = files[0];
+      setUploadingFiles(prev => ({ ...prev, general: true }));
+      
+      // Simulate file upload process
+      setTimeout(() => {
+        setUploadingFiles(prev => ({ ...prev, general: false }));
+        setUploadedFiles(prev => ({ ...prev, general: file.name }));
+        alert(`Successfully uploaded ${file.name}!`);
+      }, 2000);
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
 
   const filteredStudents = useMemo(() => {
     return students.filter(student => {
@@ -194,7 +258,7 @@ export default function AdminDashboard() {
       { icon: '📈', label: 'Analytics', key: 'analytics' },
       { icon: '✉️', label: 'Communication', key: 'communication' },
       { icon: '📋', label: 'Reports', key: 'reports' },
-      { icon: '📥', label: 'Import Data', key: 'import' },
+      { icon: '📥', label: 'Data Management', key: 'import' },
       { icon: '⚙️', label: 'Settings', key: 'settings' },
     ];
 
@@ -957,97 +1021,321 @@ export default function AdminDashboard() {
     </div>
   );
 
-  // Import Data Page
+  // Data Management Page (formerly Import Data Page)
   const ImportDataPage = () => (
     <div className="space-y-6">
-      {/* Import Options */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="text-center">
-            <div className="text-4xl mb-4">📊</div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Student Data</h3>
-            <p className="text-sm text-gray-600 mb-4">Import student records, grades, and personal information</p>
-            <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Import Students</button>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Left Side - General Data Import */}
+        <div className="space-y-6">
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-6">General Data Import</h3>
+            <p className="text-sm text-gray-600 mb-6">Import general system data including student records, counselor profiles, and historical information</p>
+            
+            {/* Import Options */}
+            <div className="space-y-4 mb-6">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl">📊</div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-gray-900">Student Data</h4>
+                    <p className="text-sm text-gray-600">Import student records, grades, and personal information</p>
+                  </div>
+                  <button 
+                    className={`text-white px-4 py-2 rounded-lg text-sm transition-colors ${
+                      uploadingFiles.students 
+                        ? 'bg-gray-400 cursor-not-allowed' 
+                        : 'bg-blue-500 hover:bg-blue-600'
+                    }`}
+                    onClick={() => handleDataImport('students')}
+                    disabled={uploadingFiles.students}
+                  >
+                    {uploadingFiles.students ? 'Importing...' : 'Import'}
+                  </button>
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl">👥</div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-gray-900">Counselor Data</h4>
+                    <p className="text-sm text-gray-600">Import counselor profiles and assignment information</p>
+                  </div>
+                  <button 
+                    className={`text-white px-4 py-2 rounded-lg text-sm transition-colors ${
+                      uploadingFiles.counselors 
+                        ? 'bg-gray-400 cursor-not-allowed' 
+                        : 'bg-green-500 hover:bg-green-600'
+                    }`}
+                    onClick={() => handleDataImport('counselors')}
+                    disabled={uploadingFiles.counselors}
+                  >
+                    {uploadingFiles.counselors ? 'Importing...' : 'Import'}
+                  </button>
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl">📈</div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-gray-900">Historical Data</h4>
+                    <p className="text-sm text-gray-600">Import past assessment and intervention records</p>
+                  </div>
+                  <button 
+                    className={`text-white px-4 py-2 rounded-lg text-sm transition-colors ${
+                      uploadingFiles.historical 
+                        ? 'bg-gray-400 cursor-not-allowed' 
+                        : 'bg-purple-500 hover:bg-purple-600'
+                    }`}
+                    onClick={() => handleDataImport('historical')}
+                    disabled={uploadingFiles.historical}
+                  >
+                    {uploadingFiles.historical ? 'Importing...' : 'Import'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* File Upload Interface */}
+            <div 
+              className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors"
+              onDrop={handleDragAndDrop}
+              onDragOver={handleDragOver}
+              onDragEnter={(e) => e.preventDefault()}
+            >
+              <div className="text-4xl mb-4">📁</div>
+              <h4 className="text-lg font-medium text-gray-900 mb-2">
+                {uploadingFiles.general ? 'Uploading...' : 'Drag and drop your file here'}
+              </h4>
+              <p className="text-gray-600 mb-4">Supported formats: CSV, Excel (.xlsx), JSON</p>
+              <p className="text-sm text-gray-500 mb-4">Maximum file size: 50MB</p>
+              {uploadedFiles.general && (
+                <p className="text-sm text-green-600 mb-4">✅ Uploaded: {uploadedFiles.general}</p>
+              )}
+              <button 
+                className={`px-6 py-2 rounded-lg transition-colors ${
+                  uploadingFiles.general 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-blue-500 hover:bg-blue-600'
+                } text-white`}
+                onClick={() => handleFileUpload('general')}
+                disabled={uploadingFiles.general}
+              >
+                {uploadingFiles.general ? 'Uploading...' : 'Choose File'}
+              </button>
+            </div>
           </div>
         </div>
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="text-center">
-            <div className="text-4xl mb-4">👥</div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Counselor Data</h3>
-            <p className="text-sm text-gray-600 mb-4">Import counselor profiles and assignment information</p>
-            <button className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">Import Counselors</button>
-          </div>
-        </div>
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="text-center">
-            <div className="text-4xl mb-4">📈</div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Historical Data</h3>
-            <p className="text-sm text-gray-600 mb-4">Import past assessment and intervention records</p>
-            <button className="w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600">Import History</button>
+
+        {/* Right Side - Specific Student Data Uploads */}
+        <div className="space-y-6">
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-6">Specialized Student Data Upload</h3>
+            <p className="text-sm text-gray-600 mb-6">Upload specific student data files in Excel format for detailed analysis</p>
+            
+            {/* Test Score Data Section */}
+            <div className="mb-6">
+              <div className="border border-blue-200 rounded-lg p-4 bg-blue-50">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                      <span className="text-white text-lg">📝</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-blue-900">Test Score Data</h4>
+                      <p className="text-sm text-blue-700">Upload student exam and assessment scores</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-xs text-blue-600">Required format: Excel (.xlsx) with columns: Student_ID, Test_Name, Subject, Score, Max_Score, Date</p>
+                  {uploadedFiles.testScores && (
+                    <p className="text-xs text-green-600">✅ Uploaded: {uploadedFiles.testScores}</p>
+                  )}
+                  <button 
+                    className={`w-full py-2 px-4 rounded-lg transition-colors text-white ${
+                      uploadingFiles.testScores 
+                        ? 'bg-gray-400 cursor-not-allowed' 
+                        : 'bg-blue-600 hover:bg-blue-700'
+                    }`}
+                    onClick={() => handleFileUpload('testScores')}
+                    disabled={uploadingFiles.testScores}
+                  >
+                    {uploadingFiles.testScores ? 'Uploading...' : 'Upload Test Scores (.xlsx)'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Financial Data Section */}
+            <div className="mb-6">
+              <div className="border border-green-200 rounded-lg p-4 bg-green-50">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                      <span className="text-white text-lg">�</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-green-900">Financial Data</h4>
+                      <p className="text-sm text-green-700">Upload student fee and financial information</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-xs text-green-600">Required format: Excel (.xlsx) with columns: Student_ID, Fee_Type, Amount, Due_Date, Payment_Status, Semester</p>
+                  {uploadedFiles.financial && (
+                    <p className="text-xs text-green-600">✅ Uploaded: {uploadedFiles.financial}</p>
+                  )}
+                  <button 
+                    className={`w-full py-2 px-4 rounded-lg transition-colors text-white ${
+                      uploadingFiles.financial 
+                        ? 'bg-gray-400 cursor-not-allowed' 
+                        : 'bg-green-600 hover:bg-green-700'
+                    }`}
+                    onClick={() => handleFileUpload('financial')}
+                    disabled={uploadingFiles.financial}
+                  >
+                    {uploadingFiles.financial ? 'Uploading...' : 'Upload Financial Data (.xlsx)'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Attendance Data Section */}
+            <div className="mb-6">
+              <div className="border border-orange-200 rounded-lg p-4 bg-orange-50">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                      <span className="text-white text-lg">📅</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-orange-900">Attendance Data</h4>
+                      <p className="text-sm text-orange-700">Upload student attendance records</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-xs text-orange-600">Required format: Excel (.xlsx) with columns: Student_ID, Subject, Date, Status, Class_Hours, Semester</p>
+                  {uploadedFiles.attendance && (
+                    <p className="text-xs text-orange-600">✅ Uploaded: {uploadedFiles.attendance}</p>
+                  )}
+                  <button 
+                    className={`w-full py-2 px-4 rounded-lg transition-colors text-white ${
+                      uploadingFiles.attendance 
+                        ? 'bg-gray-400 cursor-not-allowed' 
+                        : 'bg-orange-600 hover:bg-orange-700'
+                    }`}
+                    onClick={() => handleFileUpload('attendance')}
+                    disabled={uploadingFiles.attendance}
+                  >
+                    {uploadingFiles.attendance ? 'Uploading...' : 'Upload Attendance Data (.xlsx)'}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* File Upload Interface */}
+      {/* Recent Uploads Status */}
       <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Upload Data File</h3>
-        <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-          <div className="text-4xl mb-4">📁</div>
-          <h4 className="text-lg font-medium text-gray-900 mb-2">Drag and drop your file here</h4>
-          <p className="text-gray-600 mb-4">Supported formats: CSV, Excel (.xlsx), JSON</p>
-          <button className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Choose File</button>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Upload Status</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="flex justify-between items-center">
+              <div>
+                <h4 className="font-medium text-green-900">Test Scores</h4>
+                <p className="text-sm text-green-700">September 2025</p>
+              </div>
+              <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Success</span>
+            </div>
+          </div>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="flex justify-between items-center">
+              <div>
+                <h4 className="font-medium text-blue-900">Financial Data</h4>
+                <p className="text-sm text-blue-700">Q3 2025</p>
+              </div>
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">Processing</span>
+            </div>
+          </div>
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="flex justify-between items-center">
+              <div>
+                <h4 className="font-medium text-green-900">Attendance</h4>
+                <p className="text-sm text-green-700">August 2025</p>
+              </div>
+              <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Success</span>
+            </div>
+          </div>
         </div>
-        
-        <div className="mt-6 space-y-4">
+      </div>
+
+      {/* Data Configuration and Mapping */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Data Configuration</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Data Type</label>
             <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
+              <option>Test Score Data</option>
+              <option>Financial Data</option>
+              <option>Attendance Data</option>
               <option>Student Records</option>
               <option>Counselor Profiles</option>
-              <option>Assessment Data</option>
-              <option>Intervention Records</option>
-              <option>Attendance Data</option>
             </select>
           </div>
-          <div className="flex items-center">
-            <input type="checkbox" className="mr-2" />
-            <label className="text-sm text-gray-700">Validate data before import</label>
-          </div>
-          <div className="flex items-center">
-            <input type="checkbox" className="mr-2" />
-            <label className="text-sm text-gray-700">Update existing records</label>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Validation Rules</label>
+            <div className="space-y-2">
+              <div className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <label className="text-sm text-gray-700">Validate data before import</label>
+              </div>
+              <div className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <label className="text-sm text-gray-700">Update existing records</label>
+              </div>
+              <div className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <label className="text-sm text-gray-700">Send notification on completion</label>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Data Mapping */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Column Mapping</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h4 className="font-medium text-gray-900 mb-3">File Columns</h4>
-            <div className="space-y-2">
-              {['student_id', 'full_name', 'email_address', 'department_code', 'year_level'].map(col => (
-                <div key={col} className="p-2 bg-gray-50 rounded text-sm font-mono">{col}</div>
-              ))}
+        {/* Column Mapping Section */}
+        <div className="mt-6">
+          <h4 className="font-medium text-gray-900 mb-4">Column Mapping</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h5 className="font-medium text-gray-700 mb-3">File Columns</h5>
+              <div className="space-y-2">
+                {['student_id', 'full_name', 'email_address', 'department_code', 'year_level'].map(col => (
+                  <div key={col} className="p-2 bg-gray-50 rounded text-sm font-mono">{col}</div>
+                ))}
+              </div>
             </div>
-          </div>
-          <div>
-            <h4 className="font-medium text-gray-900 mb-3">System Fields</h4>
-            <div className="space-y-2">
-              {['Student ID', 'Name', 'Email', 'Department', 'Year'].map(field => (
-                <select key={field} className="w-full border border-gray-300 rounded px-2 py-1 text-sm">
-                  <option>Map to {field}</option>
-                  <option>student_id</option>
-                  <option>full_name</option>
-                  <option>email_address</option>
-                  <option>department_code</option>
-                  <option>year_level</option>
-                </select>
-              ))}
+            <div>
+              <h5 className="font-medium text-gray-700 mb-3">System Fields</h5>
+              <div className="space-y-2">
+                {['Student ID', 'Name', 'Email', 'Department', 'Year'].map(field => (
+                  <select key={field} className="w-full border border-gray-300 rounded px-2 py-1 text-sm">
+                    <option>Map to {field}</option>
+                    <option>student_id</option>
+                    <option>full_name</option>
+                    <option>email_address</option>
+                    <option>department_code</option>
+                    <option>year_level</option>
+                  </select>
+                ))}
+              </div>
             </div>
           </div>
         </div>
+
         <div className="mt-6 flex space-x-4">
           <button className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Preview Import</button>
           <button className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Start Import</button>
@@ -1070,9 +1358,11 @@ export default function AdminDashboard() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {[
-                { file: 'students_fall_2025.csv', type: 'Student Data', records: 1247, date: '2025-09-20', status: 'Success' },
-                { file: 'counselor_assignments.xlsx', type: 'Counselor Data', records: 15, date: '2025-09-18', status: 'Success' },
-                { file: 'assessment_history.json', type: 'Assessment Data', records: 892, date: '2025-09-15', status: 'Partial' }
+                { file: 'test_scores_sept_2025.xlsx', type: 'Test Score Data', records: 1247, date: '2025-09-20', status: 'Success' },
+                { file: 'financial_data_q3.xlsx', type: 'Financial Data', records: 892, date: '2025-09-18', status: 'Success' },
+                { file: 'attendance_aug_2025.xlsx', type: 'Attendance Data', records: 1158, date: '2025-09-15', status: 'Success' },
+                { file: 'students_fall_2025.csv', type: 'Student Data', records: 1247, date: '2025-09-12', status: 'Success' },
+                { file: 'counselor_assignments.xlsx', type: 'Counselor Data', records: 15, date: '2025-09-10', status: 'Partial' }
               ].map((import_, index) => (
                 <tr key={index}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{import_.file}</td>
@@ -1301,7 +1591,7 @@ export default function AdminDashboard() {
                 {currentPage === 'analytics' && 'Advanced analytics and insights for risk management'}
                 {currentPage === 'communication' && 'Send alerts, messages, and notifications to students and counselors'}
                 {currentPage === 'reports' && 'Generate, schedule, and export comprehensive reports'}
-                {currentPage === 'import' && 'Import and manage student data from various sources'}
+                {currentPage === 'import' && 'Comprehensive data management and specialized student data uploads'}
                 {currentPage === 'settings' && 'System configuration and administrative settings'}
               </p>
             </div>
