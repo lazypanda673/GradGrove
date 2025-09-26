@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "../common/Navbar";
+import Footer from "../common/Footer";
 function Counsellor() {
 	// ...existing logic from original file...
 	return (
